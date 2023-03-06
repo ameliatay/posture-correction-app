@@ -11,9 +11,11 @@ class NavigationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNavigationBinding
 
     private val fragmentManager = supportFragmentManager
-    private val exploreFragment = ExploreFragment()
-    private val savedFragment = SavedFragment()
-    private var activeFragment: Fragment = exploreFragment
+    private val homeFragment = HomeFragment()
+    private val programsFragment = ProgramsFragment()
+    private val practiceFragment = PracticeFragment()
+    private val profileFragment = ProfileFragment()
+    private var activeFragment: Fragment = homeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,23 +27,36 @@ class NavigationActivity : AppCompatActivity() {
 
     private fun setUpUi() {
         fragmentManager.beginTransaction().apply {
-            add(R.id.container, exploreFragment, "explore")
-            add(R.id.container, savedFragment, "saved").hide(savedFragment)
+            add(R.id.container, homeFragment, "home")
+            add(R.id.container, programsFragment, "programs").hide(programsFragment)
+            add(R.id.container, practiceFragment, "practice").hide(practiceFragment)
+            add(R.id.container, profileFragment, "profile").hide(profileFragment)
         }.commit()
 
         binding.bottomNavView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.explore -> {
+                R.id.home -> {
                     fragmentManager.beginTransaction().hide(activeFragment)
-                        .show(exploreFragment).commit()
-                    activeFragment = exploreFragment
+                        .show(homeFragment).commit()
+                    activeFragment = homeFragment
                     true
                 }
-                R.id.saved -> {
+                R.id.programs -> {
                     fragmentManager.beginTransaction().hide(activeFragment)
-                        .show(savedFragment).commit()
-                    activeFragment = savedFragment
-
+                        .show(programsFragment).commit()
+                    activeFragment = programsFragment
+                    true
+                }
+                R.id.practice -> {
+                    fragmentManager.beginTransaction().hide(activeFragment)
+                        .show(practiceFragment).commit()
+                    activeFragment = practiceFragment
+                    true
+                }
+                R.id.profile -> {
+                    fragmentManager.beginTransaction().hide(activeFragment)
+                        .show(profileFragment).commit()
+                    activeFragment = profileFragment
                     true
                 }
                 else -> false
