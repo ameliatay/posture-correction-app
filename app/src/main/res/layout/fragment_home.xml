@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvUserGreeting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24sp"
+                android:paddingTop="36sp"
+                android:text="Hello, John!"
+                android:theme="@style/HeaderOne" />
+
+            <TextView
+                android:id="@+id/tvJumpBackIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24sp"
+                android:paddingTop="36sp"
+                android:paddingBottom="12sp"
+                android:text="Jump Back In"
+                android:theme="@style/HeaderTwo" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                tools:ignore="SpeakableTextPresentCheck">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <Space
+                        android:layout_width="12sp"
+                        android:layout_height="match_parent" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/tvRecommended"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24sp"
+                android:paddingTop="36sp"
+                android:paddingBottom="12sp"
+                android:text="Recommended For You"
+                android:theme="@style/HeaderTwo" />
+
+
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                tools:ignore="SpeakableTextPresentCheck">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <Space
+                        android:layout_width="12sp"
+                        android:layout_height="match_parent" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/tvCompleted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24sp"
+                android:paddingTop="36sp"
+                android:paddingBottom="12sp"
+                android:text="Recently Completed"
+                android:theme="@style/HeaderTwo" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                tools:ignore="SpeakableTextPresentCheck">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <Space
+                        android:layout_width="12sp"
+                        android:layout_height="match_parent" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+
+                    <include layout="@layout/component_program_card" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

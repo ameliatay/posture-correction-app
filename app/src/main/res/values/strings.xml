@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">PostureCorrectionApp</string>
-    <string name="explore_tab_label">Explore</string>
-    <string name="saved_tab_label">Saved</string>
+    <string name="home_tab_label">Home</string>
+    <string name="programs_tab_label">Programs</string>
+    <string name="practice_tab_label">Practice</string>
     <string name="profile_tab_label">Profile</string>
+<<<<<<< HEAD
 
     <string-array name="hiit_names">
         <item name="hiit1">Full Body Workout for Fat Burning</item>
@@ -20,4 +22,8 @@
         <item name="barre5">Barre Bootcamp: High-Intensity, Low-Impact</item>
     </string-array>
 
+=======
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+>>>>>>> d825d48134c5712857610805c4b8f7493fded622
 </resources>
