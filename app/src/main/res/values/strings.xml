@@ -4,7 +4,6 @@
     <string name="programs_tab_label">Programs</string>
     <string name="practice_tab_label">Practice</string>
     <string name="profile_tab_label">Profile</string>
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="hiit_names">
@@ -22,5 +21,4 @@
         <item name="barre4">Barre Fusion: Yoga and Pilates Inspired</item>
         <item name="barre5">Barre Bootcamp: High-Intensity, Low-Impact</item>
     </string-array>
-
 </resources>
