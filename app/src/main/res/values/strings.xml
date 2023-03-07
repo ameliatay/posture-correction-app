@@ -3,4 +3,21 @@
     <string name="explore_tab_label">Explore</string>
     <string name="saved_tab_label">Saved</string>
     <string name="profile_tab_label">Profile</string>
+
+    <string-array name="hiit_names">
+        <item name="hiit1">Full Body Workout for Fat Burning</item>
+        <item name="hiit2">Cardio Workout for Beginners</item>
+        <item name="hiit3">Workout with Weights for Strength Training</item>
+        <item name="hiit4">Abs Workout for a Total Body Burn</item>
+        <item name="hiit5">HIIT Workout for Endurance and Stamina</item>
+    </string-array>
+
+    <string-array name="barre_names">
+        <item name="barre1">Intermediate Barre Burner</item>
+        <item name="barre2">Sculpting for Toned Legs</item>
+        <item name="barre3">Full-Body Barre Workout for All Levels</item>
+        <item name="barre4">Barre Fusion: Yoga and Pilates Inspired</item>
+        <item name="barre5">Barre Bootcamp: High-Intensity, Low-Impact</item>
+    </string-array>
+
 </resources>
