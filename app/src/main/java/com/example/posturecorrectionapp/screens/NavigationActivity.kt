@@ -1,9 +1,12 @@
 package com.example.posturecorrectionapp.screens
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.posturecorrectionapp.CameraPreviewActivity
 import com.example.posturecorrectionapp.R
+import com.example.posturecorrectionapp.Workout
 import com.example.posturecorrectionapp.databinding.ActivityNavigationBinding
 
 class NavigationActivity : AppCompatActivity() {
@@ -21,6 +24,7 @@ class NavigationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpUi()
+        goToCameraPreviewActivity()
     }
 
     private fun setUpUi() {
@@ -48,4 +52,10 @@ class NavigationActivity : AppCompatActivity() {
             }
         }
     }
+
+    // Go to CameraPreviewActivity
+     fun goToCameraPreviewActivity() {
+         var it = Intent(this, Workout::class.java)
+        startActivity(it)
+     }
 }
