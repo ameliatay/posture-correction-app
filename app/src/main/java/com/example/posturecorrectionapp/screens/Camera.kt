@@ -30,6 +30,7 @@ import com.example.posturecorrectionapp.data.Device
 import com.example.posturecorrectionapp.data.Person
 import com.example.posturecorrectionapp.ml.ModelType
 import com.example.posturecorrectionapp.ml.MoveNet
+import com.example.posturecorrectionapp.ml.PoseClassifier
 import com.example.posturecorrectionapp.utils.AngleCheckingUtils
 import com.example.posturecorrectionapp.utils.VisualizationUtils
 import com.example.posturecorrectionapp.utils.YuvToRgbConverter
@@ -60,6 +61,7 @@ class Camera : Fragment() {
     private var preview: Preview? = null
     private var imageCapture: ImageCapture? = null
     private var detector: MoveNet? = null
+    private var classifier: PoseClassifier? = null
     private val lock = Any()
 
     private lateinit var safeContext: Context
@@ -167,6 +169,7 @@ class Camera : Fragment() {
 
         }, ContextCompat.getMainExecutor(this.requireContext()))
         createPoseEstimator()
+        createPoseClassifier()
     }
 
 
@@ -225,6 +228,12 @@ class Camera : Fragment() {
     //Create Pose Estimator Movenet Lightning
     private fun createPoseEstimator(){
         detector = MoveNet.create(safeContext, Device.CPU, ModelType.Lightning)
+    }
+
+    // Create Pose Classifier
+    private fun createPoseClassifier() {
+        //REad labels from file
+        classifier = PoseClassifier.create(safeContext)
     }
 
     // Visualisation
@@ -323,17 +332,28 @@ class Camera : Fragment() {
         )
 
         val persons = mutableListOf<Person>()
+        var classificationResult: List<Pair<String,Float>>? = null
 
         synchronized(lock) {
-            detector?.estimatePoses(rotatedBitmap)?.let {
+            detector?.estimatePoses(rotatedBitmap)?.let { it ->
                 for (person in it) {
                     if (person.score > 0.01) {
                         persons.add(person)
                     }
                 }
                 if (persons.size > 0) {
-                    Log.d(TAG, "persons: ${persons.get(0).score}")
-                    Log.d(TAG, "persons: ${persons.get(0).keyPoints}")
+                    Log.d(TAG, "persons: ${persons[0].score}")
+                    Log.d(TAG, "persons: ${persons[0].keyPoints}")
+                    classifier?.run {
+                        var temp = classify(persons[0])
+                        if (temp.isNotEmpty()) {
+                            classificationResult = temp
+                            Log.d(TAG, "classificationResult: ${classificationResult?.get(0)}")
+                            //See 2nd and 3rd results
+                            Log.d(TAG, "classificationResult: ${classificationResult?.get(1)}")
+                            Log.d(TAG, "classificationResult: ${classificationResult?.get(2)}")
+                        }
+                    }
                 }
             }
         }
@@ -347,6 +367,16 @@ class Camera : Fragment() {
         })
     }
 
+    fun setClassifier(classifier: PoseClassifier?) {
+        synchronized(lock) {
+            if (this.classifier != null) {
+                this.classifier?.close()
+                this.classifier = null
+            }
+            this.classifier = classifier
+        }
+    }
+
     // Class for Pose Estimation
     private inner class PoseAnalyzer() : ImageAnalysis.Analyzer {
         override fun analyze(imageProxy: ImageProxy) {
@@ -357,7 +387,6 @@ class Camera : Fragment() {
                 imageProxy.height,
                 Bitmap.Config.ARGB_8888
             )
-//            Log.d(TAG, "imageProxy: ${imageProxy.width} x ${imageProxy.height}")
 
             processImage(imageProxy, bitmap)
             imageProxy.close()
