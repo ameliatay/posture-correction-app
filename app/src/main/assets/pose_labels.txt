@@ -1,0 +1,15 @@
+pullups_down
+chair
+jumping_jacks_down
+warrior
+tree
+situp_down
+squats_up
+pushups_up
+jumping_jacks_up
+cobra
+pushups_down
+dog
+pullups_up
+squats_down
+situp_up

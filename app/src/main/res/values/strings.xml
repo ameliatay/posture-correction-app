@@ -4,6 +4,8 @@
     <string name="programs_tab_label">Programs</string>
     <string name="practice_tab_label">Practice</string>
     <string name="profile_tab_label">Profile</string>
+    <string name="Front">Front Camera</string>
+    <string name="Back">Back Camera</string>
 
     <string-array name="hiit_names">
         <item name="hiit1">Full Body Workout for Fat Burning</item>

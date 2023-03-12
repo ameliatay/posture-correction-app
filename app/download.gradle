@@ -1,0 +1,47 @@
+task downloadMovenetLightningModel(type: DownloadUrlTask) {
+    def modelMovenetLightningDownloadUrl = "https://tfhub.dev/google/lite-model/movenet/singlepose/lightning/tflite/float16/4?lite-format=tflite"
+    doFirst {
+        println "Downloading ${modelMovenetLightningDownloadUrl}"
+    }
+    sourceUrl = "${modelMovenetLightningDownloadUrl}"
+    target = file("src/main/ml/movenet_lightning.tflite")
+}
+
+task downloadMovenetThunderModel(type: DownloadUrlTask) {
+    def modelMovenetThunderDownloadUrl = "https://tfhub.dev/google/lite-model/movenet/singlepose/thunder/tflite/float16/4?lite-format=tflite"
+    doFirst {
+        println "Downloading ${modelMovenetThunderDownloadUrl}"
+    }
+    sourceUrl = "${modelMovenetThunderDownloadUrl}"
+    target = file("src/main/ml/movenet_thunder.tflite")
+}
+
+task downloadMovenetMultiPoseModel(type: DownloadUrlTask) {
+    def modelMovenetThunderDownloadUrl = "https://tfhub.dev/google/lite-model/movenet/multipose/lightning/tflite/float16/1?lite-format=tflite"
+    doFirst {
+        println "Downloading ${modelMovenetThunderDownloadUrl}"
+    }
+    sourceUrl = "${modelMovenetThunderDownloadUrl}"
+    target = file("src/main/ml/movenet_multipose_fp16.tflite")
+}
+
+task downloadModel {
+    dependsOn downloadMovenetLightningModel
+    dependsOn downloadMovenetThunderModel
+    dependsOn downloadMovenetMultiPoseModel
+}
+
+class DownloadUrlTask extends DefaultTask {
+    @Input
+    String sourceUrl
+
+    @OutputFile
+    File target
+
+    @TaskAction
+    void download() {
+        ant.get(src: sourceUrl, dest: target)
+    }
+}
+
+preBuild.dependsOn downloadModel
