@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="twoXs">8</integer>
+    <integer name="xs">12</integer>
+    <integer name="s">16</integer>
+    <integer name="m">20</integer>
+    <integer name="l">24</integer>
+    <integer name="xl">28</integer>
+    <integer name="twoXl">32</integer>
+</resources>

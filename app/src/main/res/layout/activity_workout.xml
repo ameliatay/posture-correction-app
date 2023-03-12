@@ -64,7 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="goToPrevious"
-                android:text="Previous" />
+                android:text="Previous"
+                android:theme="@style/PinkButton"/>
 
             <Button
                 android:id="@+id/startButton"
@@ -72,14 +73,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:onClick="startPause"
-                android:text="Start" />
+                android:text="Start"
+                android:theme="@style/PinkButton"/>
 
             <Button
                 android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="goToNext"
-                android:text="Next" />
+                android:text="Next"
+                android:theme="@style/PinkButton"/>
 
         </LinearLayout>
     </LinearLayout>

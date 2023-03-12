@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvUserGreeting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24sp"
+                android:paddingTop="36sp"
+                android:text="Hello, John!"
+                android:theme="@style/HeaderOne" />
+
+            <TextView
+                android:id="@+id/tvJumpBackIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24sp"
+                android:paddingTop="36sp"
+                android:paddingBottom="12sp"
+                android:text="Jump Back In"
+                android:theme="@style/HeaderTwo" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/jump_back_in_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="12sp"
+                android:paddingEnd="12sp"
+                android:clipToPadding="false" />
+
+            <TextView
+                android:id="@+id/tvRecommended"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24sp"
+                android:paddingTop="36sp"
+                android:paddingBottom="12sp"
+                android:text="Recommended For You"
+                android:theme="@style/HeaderTwo" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recommended_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="12sp"
+                android:paddingEnd="12sp"
+                android:clipToPadding="false" />
+
+            <TextView
+                android:id="@+id/tvCompleted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="24sp"
+                android:paddingTop="36sp"
+                android:paddingBottom="12sp"
+                android:text="Recently Completed"
+                android:theme="@style/HeaderTwo" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/completed_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="12sp"
+                android:paddingEnd="12sp"
+                android:clipToPadding="false" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
