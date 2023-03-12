@@ -20,4 +20,31 @@
         <item name="barre4">Barre Fusion: Yoga and Pilates Inspired</item>
         <item name="barre5">Barre Bootcamp: High-Intensity, Low-Impact</item>
     </string-array>
+
+    <!-- Program Names -->
+    <string name="program1">Half Moon Flow I</string>
+    <string name="program2">Half Moon Flow II</string>
+    <string name="program3">Half Moon Flow III</string>
+    <string name="program4">Power Flow I</string>
+    <string name="program5">Power Flow II</string>
+    <string name="program6">Power Flow III</string>
+
+    <!-- Category Names -->
+    <string name="category1">Yoga</string>
+    <string name="category2">Arms</string>
+    <string name="category3">Legs</string>
+
+    <!-- Ratings -->
+    <string name="rating4.5">4.5/5.0</string>
+    <string name="rating4.6">4.6/5.0</string>
+    <string name="rating4.7">4.7/5.0</string>
+    <string name="rating4.8">4.8/5.0</string>
+    <string name="rating4.9">4.9/5.0</string>
+    <string name="rating5.0">5.0/5.0</string>
+
+    <!-- Durations -->
+    <string name="duration30m">30m</string>
+    <string name="duration40m">40m</string>
+    <string name="duration50m">50m</string>
+    <string name="duration1h30m">1h 30m</string>
 </resources>

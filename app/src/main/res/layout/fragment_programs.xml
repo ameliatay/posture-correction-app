@@ -27,7 +27,7 @@
                 android:paddingTop="36sp"
                 android:text="Programs"
                 android:theme="@style/HeaderOne" />
-
+<!--
             <SearchView
                 android:id="@+id/searchBar"
                 android:layout_width="match_parent"
@@ -37,8 +37,8 @@
                 android:background="@drawable/searchview_bg"
                 android:iconifiedByDefault="false"
                 android:queryHint="Yoga, pilates, crossfit..." />
-
-            <!--          hiit &ndash;&gt;
+-->
+            <!--          hiit &ndash;&gt; -->
             <TextView
                 android:id="@+id/hiit"
                 android:layout_width="match_parent"
@@ -272,7 +272,7 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            &lt;!&ndash;            barre &ndash;&gt;
+            <!-->   barre &ndash;&gt; -->
             <TextView
                 android:id="@+id/barre"
                 android:layout_width="match_parent"
