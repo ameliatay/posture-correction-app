@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@mipmap/jogging"
             android:tint="#99000000"
             tools:ignore="UseAppTint" />
 
@@ -32,7 +31,6 @@
             android:paddingLeft="24sp"
             android:paddingTop="24sp"
             android:paddingBottom="72sp"
-            android:text="Cardiovascular"
             android:theme="@style/HeaderTwoWhite" />
 
         <Button
@@ -44,6 +42,7 @@
             android:layout_marginBottom="16sp"
             android:text="Explore Now"
             android:theme="@style/PinkButton"
+            android:clickable="false"
             app:cornerRadius="8sp" />
 
     </androidx.cardview.widget.CardView>

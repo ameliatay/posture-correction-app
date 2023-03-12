@@ -29,8 +29,7 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/Subtitle"
                 android:paddingTop="12sp"
-                android:paddingLeft="12sp"
-                android:text="Yoga" />
+                android:paddingLeft="12sp" />
 
             <TextView
                 android:id="@+id/item_title"

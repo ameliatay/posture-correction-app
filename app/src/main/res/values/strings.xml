@@ -23,6 +23,12 @@
         <item name="barre5">Barre Bootcamp: High-Intensity, Low-Impact</item>
     </string-array>
 
+    <!-- Exercise Names -->
+    <string name="exercise1">Push Ups</string>
+    <string name="exercise2">Sit Ups</string>
+    <string name="exercise3">Crunches</string>
+    <string name="exercise4">Lunges</string>
+
     <!-- Program Names -->
     <string name="program1">Half Moon Flow I</string>
     <string name="program2">Half Moon Flow II</string>
@@ -35,6 +41,9 @@
     <string name="category1">Yoga</string>
     <string name="category2">Arms</string>
     <string name="category3">Legs</string>
+    <string name="category4">Cardiovascular</string>
+    <string name="category5">Core Strength</string>
+    <string name="category6">Flexibility</string>
 
     <!-- Ratings -->
     <string name="rating4.5">4.5/5.0</string>
@@ -49,4 +58,9 @@
     <string name="duration40m">40m</string>
     <string name="duration50m">50m</string>
     <string name="duration1h30m">1h 30m</string>
+
+    <!-- Difficulty -->
+    <string name="beginner">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
 </resources>

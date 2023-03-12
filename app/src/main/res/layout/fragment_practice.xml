@@ -26,11 +26,12 @@
                 android:text="Practice Posture"
                 android:theme="@style/HeaderOne" />
 
-            <include layout="@layout/component_category_card" />
-            <include layout="@layout/component_category_card" />
-            <include layout="@layout/component_category_card" />
-            <include layout="@layout/component_category_card" />
-            <include layout="@layout/component_category_card" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/practice_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="12sp"
+                android:paddingBottom="12sp" />
 
         </LinearLayout>
     </ScrollView>
