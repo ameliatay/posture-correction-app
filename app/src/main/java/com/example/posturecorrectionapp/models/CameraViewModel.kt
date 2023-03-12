@@ -1,6 +1,7 @@
-package com.example.posturecorrectionapp.screens
+package com.example.posturecorrectionapp.models
 
 import android.app.Person
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -19,6 +20,8 @@ class CameraViewModel : ViewModel() {
     private var currentPeopleLandMarkLs = MutableLiveData<List<Person>>()
     // Store the current time left
     private var currentTimeLeft = MutableLiveData<Int>()
+    //Store the state
+    private var isTimerRunning = MutableLiveData<Boolean>()
 
 
     //Getter and Setter
@@ -70,30 +73,23 @@ class CameraViewModel : ViewModel() {
         currentTimeLeft.value = timeLeft
     }
 
+    fun getIsTimerRunning(): MutableLiveData<Boolean> {
+        return isTimerRunning
+    }
+
+    fun setIsTimerRunning(state: Boolean) {
+        isTimerRunning.value = state
+    }
+
     //Other functions
-    // Start the timer for the current exercise
-    fun startTimer(timeLeft: Int) {
-        // Count down from and update the time left every second
-        // When the time left is 0, stop the timer
-        Thread {
-            while (timeLeft > 0) {
-                Thread.sleep(1000)
-                setCurrentTimeLeft(timeLeft - 1)
-            }
-        }.start()
-    }
 
-    // Stop the timer for the current exercise
-    fun stopTimer() {
-
-    }
 
 
     //OnCleared
     override fun onCleared() {
         super.onCleared()
-        // Stop the timer
-        stopTimer()
+        //reset all the data
+        Log.d("CameraViewModel", "onCleared: ")
     }
 
 }

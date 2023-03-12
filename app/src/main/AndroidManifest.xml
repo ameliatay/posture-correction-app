@@ -29,9 +29,6 @@
             android:configChanges="orientation"
             />
         <activity
-            android:name=".CameraPreviewActivity"
-            android:exported="false" />
-        <activity
             android:name=".screens.NavigationActivity"
             android:exported="true">
             <intent-filter>

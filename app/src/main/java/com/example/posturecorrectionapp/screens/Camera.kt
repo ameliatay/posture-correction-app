@@ -24,6 +24,7 @@ import androidx.camera.video.*
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.posturecorrectionapp.R
 import com.example.posturecorrectionapp.data.Device
@@ -31,6 +32,7 @@ import com.example.posturecorrectionapp.data.Person
 import com.example.posturecorrectionapp.ml.ModelType
 import com.example.posturecorrectionapp.ml.MoveNet
 import com.example.posturecorrectionapp.ml.PoseClassifier
+import com.example.posturecorrectionapp.models.CameraViewModel
 import com.example.posturecorrectionapp.utils.AngleCheckingUtils
 import com.example.posturecorrectionapp.utils.VisualizationUtils
 import com.example.posturecorrectionapp.utils.YuvToRgbConverter
@@ -71,6 +73,10 @@ class Camera : Fragment() {
     private lateinit var v: View
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
 
+    // Use ViewModel by Workout Activity
+    private lateinit var cameraViewModel: CameraViewModel
+
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         safeContext = context
@@ -84,6 +90,9 @@ class Camera : Fragment() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Use ViewModel by Workout Activity
+        cameraViewModel = ViewModelProvider(requireActivity())[CameraViewModel::class.java]
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
         val cameraToggle = v.findViewById<Button>(R.id.switchCameraButton)
@@ -101,7 +110,7 @@ class Camera : Fragment() {
             ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
-        v.findViewById<Button>(R.id.image_capture_button)?.setOnClickListener { takePhoto() }
+//        v.findViewById<Button>(R.id.image_capture_button)?.setOnClickListener { takePhoto() }
         v.findViewById<Button>(R.id.switchCameraButton)?.setOnClickListener { switchCamera() }
 
         outputDirectory = getOutputDirectory()
@@ -113,7 +122,22 @@ class Camera : Fragment() {
             .asGif()
             .load(R.raw.tree_pose)
             .into(v.findViewById<ImageView>(R.id.imageView))
+
+        //Observe for changes in the ViewModel
+        cameraViewModel.getIsTimerRunning().observe(viewLifecycleOwner) {
+            if (it) {
+                // Start the inference
+                v.findViewById<ImageView>(R.id.surfaceView).visibility = View.VISIBLE
+                v.findViewById<PreviewView>(R.id.previewView).visibility = View.INVISIBLE
+                startInference()
+            } else {
+                v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
+                v.findViewById<PreviewView>(R.id.previewView).visibility = View.VISIBLE
+                startCamera()
+            }
+        }
     }
+
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
@@ -136,6 +160,31 @@ class Camera : Fragment() {
     @RequiresApi(Build.VERSION_CODES.R)
     private fun startCamera() {
 
+        cameraProviderFuture.addListener({
+            // Used to bind the lifecycle of cameras to the lifecycle owner
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            try {
+                // Unbind use cases before rebinding
+                cameraProvider.unbindAll()
+
+                // Bind use cases to camera
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview,imageCapture)
+
+                Log.d(TAG, "TRYYY ${v.findViewById<PreviewView>(R.id.previewView).surfaceProvider}")
+                preview!!.setSurfaceProvider(v.findViewById<PreviewView>(R.id.previewView).surfaceProvider)
+
+            } catch(exc: Exception) {
+                exc.printStackTrace()
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+
+        }, ContextCompat.getMainExecutor(this.requireContext()))
+    }
+
+
+    private fun startInference() {
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -171,7 +220,6 @@ class Camera : Fragment() {
         createPoseEstimator()
         createPoseClassifier()
     }
-
 
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
@@ -292,7 +340,11 @@ class Camera : Fragment() {
 
         //Get Feedback
         if (angleCheck){
-            Toast.makeText(safeContext, "Good Posture", Toast.LENGTH_SHORT).show()
+            //Update ViewModel with feedback
+            cameraViewModel.setCurrentFeedback("Good Posture")
+        }else{
+            //Update ViewModel with feedback
+            cameraViewModel.setCurrentFeedback("Bad Posture")
         }
     }
 
@@ -367,15 +419,6 @@ class Camera : Fragment() {
         })
     }
 
-    fun setClassifier(classifier: PoseClassifier?) {
-        synchronized(lock) {
-            if (this.classifier != null) {
-                this.classifier?.close()
-                this.classifier = null
-            }
-            this.classifier = classifier
-        }
-    }
 
     // Class for Pose Estimation
     private inner class PoseAnalyzer() : ImageAnalysis.Analyzer {
