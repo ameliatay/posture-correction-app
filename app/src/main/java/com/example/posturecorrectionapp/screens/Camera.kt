@@ -4,13 +4,10 @@ import android.Manifest
 import android.graphics.*
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.Configuration
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.util.Size
 import androidx.fragment.app.Fragment
@@ -41,16 +38,10 @@ import com.example.posturecorrectionapp.utils.AngleCheckingUtils
 import com.example.posturecorrectionapp.utils.VisualizationUtils
 import com.example.posturecorrectionapp.utils.YuvToRgbConverter
 import com.google.common.util.concurrent.ListenableFuture
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.Thread.sleep
-import java.text.SimpleDateFormat
 import java.util.concurrent.ExecutorService
 import java.util.*
 import java.util.concurrent.Executors
-import kotlin.properties.Delegates
 
 class Camera : Fragment() {
 
@@ -128,11 +119,26 @@ class Camera : Fragment() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        //Set up GIF ImageView
-        Glide.with(this)
-            .asGif()
-            .load(R.raw.tree_pose)
-            .into(v.findViewById<ImageView>(R.id.imageView))
+        //find resource id based on exercise name from ViewModel
+
+        //Set up a listener to observe for changes in the ViewModel
+        //and update the GIF accordingly
+        cameraViewModel.getCurrentExercise().observe(viewLifecycleOwner) {
+            Log.d("Camera", "Exercise: $it")
+            Log.d("Camera", "Package Name: ${resources.getIdentifier(it, "drawable", safeContext.applicationContext.packageName).toInt()}")
+            val resourceId = resources.getIdentifier(it, "drawable", safeContext.applicationContext.packageName).toInt()
+            if (resourceId == 0) {
+                Log.d("Camera", "Resource ID not found")
+            }else{
+                // get the resource path from the resource id
+                //Set up GIF ImageView
+                Glide.with(this)
+                    .asGif()
+                    .load(resourceId)
+                    .into(v.findViewById<ImageView>(R.id.imageView))
+
+            }
+        }
 
         //Observe for changes in the ViewModel
         cameraViewModel.getIsTimerRunning().observe(viewLifecycleOwner) {
@@ -140,10 +146,12 @@ class Camera : Fragment() {
                 // Start the inference
                 v.findViewById<ImageView>(R.id.surfaceView).visibility = View.VISIBLE
                 v.findViewById<PreviewView>(R.id.previewView).visibility = View.INVISIBLE
+                v.findViewById<Button>(R.id.switchCameraButton).visibility = View.INVISIBLE
                 startInference()
             } else {
                 v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
                 v.findViewById<PreviewView>(R.id.previewView).visibility = View.VISIBLE
+                v.findViewById<Button>(R.id.switchCameraButton).visibility = View.VISIBLE
                 startCamera()
             }
         }

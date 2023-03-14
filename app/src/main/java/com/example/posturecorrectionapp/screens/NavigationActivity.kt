@@ -27,7 +27,7 @@ class NavigationActivity : AppCompatActivity() {
         setUpUi()
 
         //To test out the the workout with camera, uncomment this line
-//        goToWorkout()
+        goToWorkout()
     }
 
     private fun setUpUi() {
@@ -70,7 +70,12 @@ class NavigationActivity : AppCompatActivity() {
     }
 
      fun goToWorkout() {
+         var workoutRoutine = ArrayList<Map<String,String>>()
+         workoutRoutine.add(mapOf("name" to "treepose", "duration" to "60"))
+         workoutRoutine.add(mapOf("name" to "pushup", "duration" to "60"))
+
          var it = Intent(this, Workout::class.java)
+         it.putExtra("workoutRoutine", workoutRoutine)
          startActivity(it)
          finish()
      }

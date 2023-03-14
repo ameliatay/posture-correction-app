@@ -44,6 +44,9 @@ class Workout : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d("Workout", "onCreate: ")
 
+        //Read the workout routine from the intent
+        workoutRoutine = intent.getSerializableExtra("workoutRoutine") as ArrayList<Map<String, String>>
+
         //Hide status bar
         window.decorView.windowInsetsController?.hide(android.view.WindowInsets.Type.statusBars())
         //Hide title bar
@@ -54,9 +57,8 @@ class Workout : AppCompatActivity() {
         setContentView(R.layout.activity_workout)
 
         // Populate the workout routine
-        workoutRoutine.add(mapOf("name" to "Warrior0", "duration" to "5"))
-        workoutRoutine.add(mapOf("name" to "Warrior1", "duration" to "10"))
-        workoutRoutine.add(mapOf("name" to "Warrior2", "duration" to "15"))
+//        workoutRoutine.add(mapOf("name" to "treepose", "duration" to "20"))
+//        workoutRoutine.add(mapOf("name" to "pushup", "duration" to "20"))
 
         // Initialise the UI
         workoutTextView = findViewById(R.id.WorkoutText)
