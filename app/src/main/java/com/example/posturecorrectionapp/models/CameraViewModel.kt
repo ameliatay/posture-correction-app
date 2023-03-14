@@ -4,6 +4,7 @@ import android.app.Person
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.lang.Thread.sleep
 
 class CameraViewModel : ViewModel() {
 
@@ -80,6 +81,7 @@ class CameraViewModel : ViewModel() {
     fun setIsTimerRunning(state: Boolean) {
         isTimerRunning.value = state
     }
+
 
     //Other functions
 

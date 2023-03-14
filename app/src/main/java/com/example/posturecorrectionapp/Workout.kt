@@ -1,9 +1,7 @@
 package com.example.posturecorrectionapp
 
 import android.content.res.Configuration
-import android.os.Build
-import android.os.Bundle
-import android.os.CountDownTimer
+import android.os.*
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -14,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.posturecorrectionapp.models.CameraViewModel
+import java.util.Timer
+import kotlin.concurrent.schedule
 import kotlin.properties.Delegates
 
 class Workout : AppCompatActivity() {
@@ -48,6 +48,8 @@ class Workout : AppCompatActivity() {
         window.decorView.windowInsetsController?.hide(android.view.WindowInsets.Type.statusBars())
         //Hide title bar
         supportActionBar?.hide()
+        //Keep screen on
+        window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContentView(R.layout.activity_workout)
 
@@ -78,7 +80,9 @@ class Workout : AppCompatActivity() {
         })
         viewModel.getCurrentFeedback().observe(this,object:Observer<String>{
             override fun onChanged(data:String?){
-                feedbackTextView.text = data
+                if (data != null) {
+                    updateFeedBack(data)
+                }
                 Log.d("Feedback", "$data")
             }
         })
@@ -150,6 +154,12 @@ class Workout : AppCompatActivity() {
         }
     }
 
+    fun updateFeedBack(feedback : String){
+        // Update the current feedback after 2 seconds, run on a separate thread
+        Handler(Looper.getMainLooper()).postDelayed({
+            feedbackTextView.text = feedback
+        }, 2000)
+    }
     fun goToPrevious(view: View){
         // Update the previous exercise
         if (currentIndex > 0){

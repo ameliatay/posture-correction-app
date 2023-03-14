@@ -4,9 +4,13 @@ import android.Manifest
 import android.graphics.*
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.util.Size
 import androidx.fragment.app.Fragment
@@ -37,11 +41,16 @@ import com.example.posturecorrectionapp.utils.AngleCheckingUtils
 import com.example.posturecorrectionapp.utils.VisualizationUtils
 import com.example.posturecorrectionapp.utils.YuvToRgbConverter
 import com.google.common.util.concurrent.ListenableFuture
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
+import java.lang.Thread.sleep
 import java.text.SimpleDateFormat
 import java.util.concurrent.ExecutorService
 import java.util.*
 import java.util.concurrent.Executors
+import kotlin.properties.Delegates
 
 class Camera : Fragment() {
 
@@ -65,13 +74,16 @@ class Camera : Fragment() {
     private var detector: MoveNet? = null
     private var classifier: PoseClassifier? = null
     private val lock = Any()
+    private var cameraFacing = false
 
+    private lateinit var cameraToggle: Button
     private lateinit var safeContext: Context
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var cameraSelector: CameraSelector
     private lateinit var v: View
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+    private lateinit var cameraProvider: ProcessCameraProvider
 
     // Use ViewModel by Workout Activity
     private lateinit var cameraViewModel: CameraViewModel
@@ -95,12 +107,11 @@ class Camera : Fragment() {
         cameraViewModel = ViewModelProvider(requireActivity())[CameraViewModel::class.java]
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
-        val cameraToggle = v.findViewById<Button>(R.id.switchCameraButton)
-        var cameraFacing = cameraToggle!!.text == "Front Camera"
+        cameraToggle = v.findViewById<Button>(R.id.switchCameraButton)
         preview = Preview.Builder().build()
         imageCapture = ImageCapture.Builder().build()
         cameraSelector = CameraSelector.Builder()
-            .requireLensFacing(if (cameraFacing!!) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK)
+            .requireLensFacing(if (!cameraFacing!!) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK)
             .build()
 
         // Request camera permissions
@@ -162,7 +173,7 @@ class Camera : Fragment() {
 
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            cameraProvider = cameraProviderFuture.get()
 
             try {
                 // Unbind use cases before rebinding
@@ -185,66 +196,42 @@ class Camera : Fragment() {
 
 
     private fun startInference() {
-        cameraProviderFuture.addListener({
-            // Used to bind the lifecycle of cameras to the lifecycle owner
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
-            // ImageAnalysis (Pose Estimation)
-            val imageAnalysis = ImageAnalysis.Builder()
-//                .setTargetResolution(Size(width, height)
-                .setTargetResolution(Size(640, 480))
-                .setTargetRotation(v.display.rotation)
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build()
-                .also {
-                    it.setAnalyzer(cameraExecutor, PoseAnalyzer())
-                }
+        val surfaceView = v.findViewById<ImageView>(R.id.surfaceView)
+        //Based on landscape mode or portrait mode, set the size of image based on width or height of surfaceView
+        val size = if (surfaceView.width > surfaceView.height) {
+            Size(surfaceView.width, surfaceView.height)
+        } else {
+            Size(surfaceView.height, surfaceView.width)
+        }
 
-            try {
-                // Unbind use cases before rebinding
-                cameraProvider.unbindAll()
-
-                // Bind use cases to camera
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview,imageCapture,imageAnalysis)
-
-                Log.d(TAG, "TRYYY ${v.findViewById<PreviewView>(R.id.previewView).surfaceProvider}")
-                preview!!.setSurfaceProvider(v.findViewById<PreviewView>(R.id.previewView).surfaceProvider)
-
-            } catch(exc: Exception) {
-                exc.printStackTrace()
-                Log.e(TAG, "Use case binding failed", exc)
+        val imageAnalysis = ImageAnalysis.Builder()
+            .setTargetResolution(size)
+            .setTargetRotation(v.display.rotation)
+            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+            .build()
+            .also {
+                it.setAnalyzer(cameraExecutor, PoseAnalyzer())
             }
 
-        }, ContextCompat.getMainExecutor(this.requireContext()))
+        try {
+            // Unbind use cases before rebinding
+            cameraProvider.unbindAll()
+
+            // Bind use cases to camera
+            cameraProvider.bindToLifecycle(
+                this, cameraSelector, preview,imageCapture,imageAnalysis)
+
+            Log.d(TAG, "TRYYY ${v.findViewById<PreviewView>(R.id.previewView).surfaceProvider}")
+            preview!!.setSurfaceProvider(v.findViewById<PreviewView>(R.id.previewView).surfaceProvider)
+
+        } catch(exc: Exception) {
+            exc.printStackTrace()
+            Log.e(TAG, "Use case binding failed", exc)
+        }
+        ContextCompat.getMainExecutor(this.requireContext())
         createPoseEstimator()
         createPoseClassifier()
-    }
-
-    private fun takePhoto() {
-        // Get a stable reference of the modifiable image capture use case
-        val imageCapture = imageCapture ?: return
-
-        // Create timestamped output file to hold the image
-        val photoFile = File(outputDirectory, SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis()) + ".jpg")
-
-        // Create output options object which contains file + metadata
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
-        // Setup image capture listener which is triggered after photo has
-        // been taken
-        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(safeContext), object : ImageCapture.OnImageSavedCallback {
-            override fun onError(exc: ImageCaptureException) {
-                Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
-            }
-
-            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                val savedUri = Uri.fromFile(photoFile)
-                val msg = "Photo capture succeeded: $savedUri"
-                Toast.makeText(safeContext, msg, Toast.LENGTH_SHORT).show()
-                Log.d(TAG, msg)
-            }
-        })
     }
 
     fun getOutputDirectory(): File {
@@ -339,12 +326,12 @@ class Camera : Fragment() {
         val angleCheck = AngleCheckingUtils.checkAngle(person)
 
         //Get Feedback
-        if (angleCheck){
-            //Update ViewModel with feedback
-            cameraViewModel.setCurrentFeedback("Good Posture")
-        }else{
+        if (!angleCheck){
             //Update ViewModel with feedback
             cameraViewModel.setCurrentFeedback("Bad Posture")
+        }else{
+            //Update ViewModel with feedback
+            cameraViewModel.setCurrentFeedback("Good Posture")
         }
     }
 
@@ -357,22 +344,17 @@ class Camera : Fragment() {
         yuvToRgbConverter.yuvToRgb(imageProxy.image!!, bitmap)
 
         val rotateMatrix = Matrix()
-        // Get Orientation of the camera
         val rotationDegrees = imageProxy.imageInfo.rotationDegrees
-        // Rotate the image
         rotateMatrix.postRotate(rotationDegrees.toFloat())
-//        rotateMatrix.postRotate(-90f)
 
-
-        // if front camera
-        if (cameraSelector == CameraSelector.DEFAULT_FRONT_CAMERA) {
-            rotateMatrix.postScale(-1f, 1f)
-            // increase the size of the image
-            rotateMatrix.postTranslate(bitmap.width.toFloat(), 0f)
-        } else {
+        // Flip the image if front camera
+        if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
             rotateMatrix.postScale(1f, 1f)
+        } else {
+            rotateMatrix.postScale(-1f, 1f)
         }
 
+        // Scale the rotatedMatrix to fit the bitmap
         val rotatedBitmap = Bitmap.createBitmap(
             bitmap,
             0,
@@ -410,15 +392,23 @@ class Camera : Fragment() {
             }
         }
         Log.d("Visualise","${persons.size} persons found ${rotatedBitmap.width} x ${rotatedBitmap.height}")
-        visualize(persons, rotatedBitmap)
-        //Run on UI Thread
-
+        // run on background thread
         activity?.runOnUiThread(Runnable {
-            //Update UI
-            feedback(persons)
+            visualize(persons, rotatedBitmap)
         })
+
+        // Run in background thread
+        Handler(Looper.getMainLooper()).post {
+            feedback(persons)
+        }
     }
 
+    // Close all resources when fragment is destroyed
+    override fun onDestroy() {
+        super.onDestroy()
+        detector?.close()
+        classifier?.close()
+    }
 
     // Class for Pose Estimation
     private inner class PoseAnalyzer() : ImageAnalysis.Analyzer {

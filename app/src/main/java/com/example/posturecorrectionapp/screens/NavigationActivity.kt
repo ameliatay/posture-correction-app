@@ -27,7 +27,7 @@ class NavigationActivity : AppCompatActivity() {
         setUpUi()
 
         //To test out the the workout with camera, uncomment this line
-        //goToWorkout()
+//        goToWorkout()
     }
 
     private fun setUpUi() {
@@ -71,6 +71,7 @@ class NavigationActivity : AppCompatActivity() {
 
      fun goToWorkout() {
          var it = Intent(this, Workout::class.java)
-        startActivity(it)
+         startActivity(it)
+         finish()
      }
 }
