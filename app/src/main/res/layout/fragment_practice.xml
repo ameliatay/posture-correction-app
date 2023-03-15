@@ -7,10 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,20 +16,63 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="24sp"
-                android:paddingTop="36sp"
-                android:paddingBottom="12sp"
-                android:text="Practice Posture"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="28sp"
+                android:text="Practice"
                 android:theme="@style/HeaderOne" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginHorizontal="24sp"
+                android:layout_marginVertical="12sp"
+                app:cardBackgroundColor="#F1EFED"
+                app:cardElevation="0sp"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="12sp"
+                        android:paddingVertical="12sp"
+                        android:src="@drawable/search"
+                        android:scaleType="centerCrop" />
+
+                    <EditText
+                        android:id="@+id/search_button"
+                        android:layout_width="230sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="8sp"
+                        android:theme="@style/Search"
+                        android:hint="Search for exercises"
+                        android:background="@null"
+                        android:inputType="textPersonName" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvJumpBackIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="12sp"
+                android:paddingBottom="8sp"
+                android:text="Browse By Category"
+                android:theme="@style/HeaderTwo" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/practice_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="12sp"
-                android:paddingBottom="12sp" />
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>

@@ -23,8 +23,8 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="24sp"
-                android:paddingTop="36sp"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="28sp"
                 android:text="Programs"
                 android:theme="@style/HeaderOne" />
 <!--

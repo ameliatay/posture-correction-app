@@ -9,8 +9,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100sp"
-        android:paddingTop="32sp"
+        android:layout_height="wrap_content"
+        android:paddingTop="28sp"
+        android:paddingBottom="14sp"
         android:paddingHorizontal="18sp"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
@@ -24,40 +25,24 @@
             android:layout_marginBottom="2sp"
             android:scaleType="centerCrop" />
 
-        <!-- Implement search bar here-->
-        <include layout="@layout/component_search_bar"/>
+        <TextView
+            android:id="@+id/tvJumpBackIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24sp"
+            android:paddingBottom="4sp"
+            android:text="Abs &amp; Core"
+            android:theme="@style/HeaderOne" />
 
     </LinearLayout>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exercises_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/search_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="24sp"
-                android:paddingTop="12sp"
-                android:paddingBottom="12sp"
-                android:theme="@style/HeaderTwo"
-                android:text="Search Results" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/exercises_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingStart="12sp"
-                android:paddingEnd="12sp"
-                android:clipToPadding="false" />
-
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="12sp"
+        android:paddingEnd="12sp"
+        android:clipToPadding="false" />
 
 </LinearLayout>

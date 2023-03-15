@@ -6,22 +6,22 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.posturecorrectionapp.R
-import com.example.posturecorrectionapp.adapters.ExercisesAdapter
+import com.example.posturecorrectionapp.adapters.SearchAdapter
 import com.example.posturecorrectionapp.data.Datasource
-import com.example.posturecorrectionapp.databinding.ActivityExerciseListBinding
+import com.example.posturecorrectionapp.databinding.ActivitySearchBinding
 
-class ExerciseListActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityExerciseListBinding
+class SearchActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySearchBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityExerciseListBinding.inflate(layoutInflater)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val exercisesDataset = Datasource().loadExercises()
         val exercisesRecyclerView = findViewById<RecyclerView>(R.id.exercises_recycler_view)
         exercisesRecyclerView.layoutManager = LinearLayoutManager(this)
-        exercisesRecyclerView?.adapter = ExercisesAdapter(this, exercisesDataset)
+        exercisesRecyclerView?.adapter = SearchAdapter(this, exercisesDataset)
     }
 
     fun backButtonClicked(view: View) {

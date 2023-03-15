@@ -38,12 +38,15 @@
     <string name="program6">Power Flow III</string>
 
     <!-- Category Names -->
-    <string name="category1">Yoga</string>
+    <string name="category1">Abs &amp; Core</string>
     <string name="category2">Arms</string>
-    <string name="category3">Legs</string>
+    <string name="category3">Booty</string>
     <string name="category4">Cardiovascular</string>
-    <string name="category5">Core Strength</string>
-    <string name="category6">Flexibility</string>
+    <string name="category5">Full Body</string>
+    <string name="category6">Legs</string>
+    <string name="category7">Resistance</string>
+    <string name="category8">Weight Loss</string>
+    <string name="category9">Yoga</string>
 
     <!-- Ratings -->
     <string name="rating4.5">4.5/5.0</string>

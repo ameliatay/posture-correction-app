@@ -20,8 +20,8 @@
                 android:id="@+id/tvUserGreeting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="24sp"
-                android:paddingTop="36sp"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="28sp"
                 android:text="Hello, John!"
                 android:theme="@style/HeaderOne" />
 
@@ -29,9 +29,9 @@
                 android:id="@+id/tvJumpBackIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="24sp"
-                android:paddingTop="36sp"
-                android:paddingBottom="12sp"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="24sp"
+                android:paddingBottom="4sp"
                 android:text="Jump Back In"
                 android:theme="@style/HeaderTwo" />
 
@@ -48,9 +48,9 @@
                 android:id="@+id/tvRecommended"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="24sp"
-                android:paddingTop="36sp"
-                android:paddingBottom="12sp"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="20sp"
+                android:paddingBottom="4sp"
                 android:text="Recommended For You"
                 android:theme="@style/HeaderTwo" />
 
@@ -67,9 +67,9 @@
                 android:id="@+id/tvCompleted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="24sp"
-                android:paddingTop="36sp"
-                android:paddingBottom="12sp"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="20sp"
+                android:paddingBottom="4sp"
                 android:text="Recently Completed"
                 android:theme="@style/HeaderTwo" />
 

@@ -17,17 +17,18 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/logo"
+        android:label="PocketTrainer"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PostureCorrectionApp"
+        android:theme="@style/MainTheme"
         tools:targetApi="31">
-
         <activity
-            android:name=".screens.SplashScreenActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:name=".screens.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.NavigationActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,13 +43,6 @@
             android:name=".Workout"
             android:configChanges="orientation"
             android:exported="false" />
-        <activity
-            android:name=".screens.NavigationActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity
             android:name=".screens.ExerciseListActivity"
             android:exported="false">

@@ -7,8 +7,8 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="250sp"
-        android:layout_height="200sp"
+        android:layout_width="220sp"
+        android:layout_height="175sp"
         android:layout_margin="8dp"
         app:cardCornerRadius="12dp" >
 
@@ -20,7 +20,7 @@
             <ImageView
                 android:id="@+id/item_image"
                 android:layout_width="match_parent"
-                android:layout_height="110sp"
+                android:layout_height="95sp"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -36,12 +36,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:theme="@style/DefaultText"
-                android:paddingTop="6sp"
+                android:paddingTop="2sp"
                 android:paddingLeft="12sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="5sp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -49,30 +50,29 @@
                     android:layout_height="18sp"
                     android:layout_gravity="center"
                     android:paddingLeft="12sp"
-                    android:layout_marginTop="5sp"
                     app:srcCompat="@drawable/star" />
 
                 <TextView
                     android:id="@+id/item_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:theme="@style/Subtitle"
-                    android:paddingTop="12sp" />
+                    android:paddingTop="3sp"
+                    android:theme="@style/Subtitle" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="18sp"
                     android:layout_gravity="center"
                     android:paddingLeft="12sp"
-                    android:layout_marginTop="6sp"
+                    android:layout_marginTop="1sp"
                     app:srcCompat="@drawable/duration" />
 
                 <TextView
                     android:id="@+id/item_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:theme="@style/Subtitle"
-                    android:paddingTop="12sp" />
+                    android:paddingTop="3sp"
+                    android:theme="@style/Subtitle" />
 
             </LinearLayout>
         </LinearLayout>

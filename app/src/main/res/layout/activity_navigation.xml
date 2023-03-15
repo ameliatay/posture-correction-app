@@ -19,6 +19,13 @@
         android:id="@+id/bottomNavView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/offWhite"
+        app:labelVisibilityMode="labeled"
+        app:itemBackground="@color/offWhite"
+        app:itemTextAppearanceActive="@style/NavBarTextActive"
+        app:itemTextAppearanceInactive="@style/NavBarText"
+        app:itemIconTint="@color/darkBlue"
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:menu="@menu/bottom_nav" />
 
 </LinearLayout>

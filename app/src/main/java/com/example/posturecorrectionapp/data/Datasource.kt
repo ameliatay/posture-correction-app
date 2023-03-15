@@ -40,6 +40,9 @@ class Datasource {
             CategoryCard(R.string.category4, R.mipmap.walking),
             CategoryCard(R.string.category5, R.mipmap.yoga3),
             CategoryCard(R.string.category6, R.mipmap.yoga5),
+            CategoryCard(R.string.category7, R.mipmap.barre4),
+            CategoryCard(R.string.category8, R.mipmap.crossfit1),
+            CategoryCard(R.string.category9, R.mipmap.yoga1),
         )
     }
 

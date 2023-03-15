@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.posturecorrectionapp.R
 import com.example.posturecorrectionapp.models.Exercises
 import com.example.posturecorrectionapp.screens.ExerciseListActivity
+import com.example.posturecorrectionapp.screens.SearchActivity
 
-class ExercisesAdapter(private val context: ExerciseListActivity,
-                       private val dataset: List<Exercises>): RecyclerView.Adapter<ExercisesAdapter.ItemViewHolder>() {
+class SearchAdapter(private val context: SearchActivity,
+                    private val dataset: List<Exercises>): RecyclerView.Adapter<SearchAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.item_image)

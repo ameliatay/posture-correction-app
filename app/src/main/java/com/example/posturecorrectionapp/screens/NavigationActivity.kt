@@ -27,7 +27,7 @@ class NavigationActivity : AppCompatActivity() {
         setUpUi()
 
         //To test out the the workout with camera, uncomment this line
-        goToWorkout()
+        //goToWorkout()
     }
 
     private fun setUpUi() {

@@ -9,10 +9,9 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="18dp"
+        android:layout_height="175sp"
+        android:layout_marginHorizontal="20sp"
+        android:layout_marginVertical="8dp"
         app:cardCornerRadius="12dp">
 
         <ImageView
@@ -43,6 +42,7 @@
             android:text="Explore Now"
             android:theme="@style/PinkButton"
             android:clickable="false"
+            android:minWidth="0dp"
             app:cornerRadius="8sp" />
 
     </androidx.cardview.widget.CardView>
