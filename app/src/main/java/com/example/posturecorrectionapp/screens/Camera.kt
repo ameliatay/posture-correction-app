@@ -37,6 +37,7 @@ import com.example.posturecorrectionapp.models.CameraViewModel
 import com.example.posturecorrectionapp.utils.AngleCheckingUtils
 import com.example.posturecorrectionapp.utils.VisualizationUtils
 import com.example.posturecorrectionapp.utils.YuvToRgbConverter
+import com.example.posturecorrectionapp.utils.TextToSpeechUtils
 import com.google.common.util.concurrent.ListenableFuture
 import java.io.File
 import java.util.concurrent.ExecutorService
@@ -79,6 +80,7 @@ class Camera : Fragment() {
     // Use ViewModel by Workout Activity
     private lateinit var cameraViewModel: CameraViewModel
 
+    private lateinit var ttsUtil: TextToSpeechUtils
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -107,7 +109,7 @@ class Camera : Fragment() {
 
         // Request camera permissions
         if (allPermissionsGranted()) {
-            startCamera()
+            startCamera(safeContext)
         } else {
             ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
@@ -152,7 +154,7 @@ class Camera : Fragment() {
                 v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
                 v.findViewById<PreviewView>(R.id.previewView).visibility = View.VISIBLE
                 v.findViewById<Button>(R.id.switchCameraButton).visibility = View.VISIBLE
-                startCamera()
+                startCamera(safeContext)
             }
         }
     }
@@ -167,7 +169,7 @@ class Camera : Fragment() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                startCamera()
+                startCamera(safeContext)
             } else {
                 Toast.makeText(safeContext, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show()
 //                finish()
@@ -177,8 +179,8 @@ class Camera : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun startCamera() {
-
+    private fun startCamera(context: Context) {
+        startTTS(context)
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             cameraProvider = cameraProviderFuture.get()
@@ -259,7 +261,7 @@ class Camera : Fragment() {
         } else {
             CameraSelector.DEFAULT_BACK_CAMERA
         }
-        startCamera()
+        startCamera(safeContext)
 
         if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
             cameraToggle.text = "Back Camera"
@@ -336,10 +338,14 @@ class Camera : Fragment() {
         //Get Feedback
         if (!angleCheck){
             //Update ViewModel with feedback
-            cameraViewModel.setCurrentFeedback("Bad Posture")
+            val text = "Bad Posture"
+            cameraViewModel.setCurrentFeedback(text)
+            ttsUtil.speak(text)
         }else{
             //Update ViewModel with feedback
-            cameraViewModel.setCurrentFeedback("Good Posture")
+            val text = "Good Posture"
+            cameraViewModel.setCurrentFeedback(text)
+            ttsUtil.speak(text)
         }
     }
 
@@ -411,8 +417,14 @@ class Camera : Fragment() {
         }
     }
 
+    private fun startTTS(context: Context) {
+        ttsUtil = TextToSpeechUtils()
+        ttsUtil.init(context)
+    }
+
     // Close all resources when fragment is destroyed
     override fun onDestroy() {
+        ttsUtil.destroy()
         super.onDestroy()
         detector?.close()
         classifier?.close()
