@@ -28,6 +28,23 @@ class NavigationActivity : AppCompatActivity() {
 
         //To test out the the workout with camera, uncomment this line
         //goToWorkout()
+
+        val sharedPreference =  getSharedPreferences("userPreferences", MODE_PRIVATE)
+
+        // To force see introduction
+        // If only want to see once, clear sharedPreferences once and rerun
+        /*var editor = sharedPreference.edit()
+        editor.remove("username")
+        editor.commit()*/
+
+        val username = sharedPreference.getString("username", null)
+        if (username == null) goToIntro()
+    }
+
+    private fun goToIntro() {
+        var it = Intent(this, IntroductionActivity::class.java)
+        startActivity(it)
+        finish()
     }
 
     private fun setUpUi() {
