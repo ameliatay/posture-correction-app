@@ -23,6 +23,18 @@
         <item name="barre5">Barre Bootcamp: High-Intensity, Low-Impact</item>
     </string-array>
 
+    <!-- Introduction Carousel Items -->
+    <string name="itemTitle1">Welcome to PocketTrainer</string>
+    <string name="itemSubtitle1">Get started on your fitness journey with PocketTrainer as your go-to guide and portable coach!</string>
+    <string name="itemTitle2">Challenge Yourself</string>
+    <string name="itemSubtitle2">We have a range of programs, from 30 minute HIIT workout compilations to month-long challenges of progressive plans.</string>
+    <string name="itemTitle3">Do It Right</string>
+    <string name="itemSubtitle3">Get real-time feedback on whether you are executing the exercise with proper form. Remember, good form minimises injury!</string>
+    <string name="itemTitle4">Jump Back In</string>
+    <string name="itemSubtitle4">Resume your progress, view your completed workouts, or get recommendations on your home page.</string>
+    <string name="itemTitle5">Are You Ready?</string>
+    <string name="itemSubtitle5">To provide you with the optimal experience, let\'s get to know more about you!</string>
+
     <!-- Exercise Names -->
     <string name="exercise1">Push Ups</string>
     <string name="exercise2">Sit Ups</string>

@@ -1,11 +1,22 @@
 package com.example.posturecorrectionapp.data
 
 import com.example.posturecorrectionapp.R
+import com.example.posturecorrectionapp.models.CarouselItem
 import com.example.posturecorrectionapp.models.CategoryCard
 import com.example.posturecorrectionapp.models.Exercises
 import com.example.posturecorrectionapp.models.ProgramCard
 
 class Datasource {
+
+    fun loadCarouselItems() : List<CarouselItem> {
+        return listOf<CarouselItem>(
+            CarouselItem(R.mipmap.sit_ups_anim, R.string.itemTitle1, R.string.itemSubtitle1, 1),
+            CarouselItem(R.mipmap.programs_page, R.string.itemTitle2, R.string.itemSubtitle2, 2),
+            CarouselItem(R.mipmap.practice_page, R.string.itemTitle3, R.string.itemSubtitle3, 3),
+            CarouselItem(R.mipmap.home_page, R.string.itemTitle4, R.string.itemSubtitle4, 4),
+            CarouselItem(R.mipmap.running_anim, R.string.itemTitle5, R.string.itemSubtitle5, 5)
+        )
+    }
 
     fun loadJumpBackIn() : List<ProgramCard> {
         return listOf<ProgramCard>(
