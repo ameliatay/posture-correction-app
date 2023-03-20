@@ -12,8 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.posturecorrectionapp.models.CameraViewModel
-import java.util.Timer
-import kotlin.concurrent.schedule
+import com.example.posturecorrectionapp.utils.ExerciseLogicUtils
 import kotlin.properties.Delegates
 
 class Workout : AppCompatActivity() {
@@ -47,6 +46,9 @@ class Workout : AppCompatActivity() {
         //Read the workout routine from the intent
         workoutRoutine = intent.getSerializableExtra("workoutRoutine") as ArrayList<Map<String, String>>
 
+        //Get list of exercises names from the workout routine
+        val exerciseList = workoutRoutine.map { it["name"] }.toList()
+
         //Hide status bar
         window.decorView.windowInsetsController?.hide(android.view.WindowInsets.Type.statusBars())
         //Hide title bar
@@ -56,9 +58,6 @@ class Workout : AppCompatActivity() {
 
         setContentView(R.layout.activity_workout)
 
-        // Populate the workout routine
-//        workoutRoutine.add(mapOf("name" to "treepose", "duration" to "20"))
-//        workoutRoutine.add(mapOf("name" to "pushup", "duration" to "20"))
 
         // Initialise the UI
         workoutTextView = findViewById(R.id.WorkoutText)
@@ -69,50 +68,45 @@ class Workout : AppCompatActivity() {
         nextButton = findViewById(R.id.nextButton)
         startPauseButton = findViewById(R.id.startButton)
 
-
         // Invoke Function to set the update the exercise
         updateExercise(currentIndex)
 
-        viewModel.getCurrentExercise().observe(this, object : Observer<String> {
-            override fun onChanged(data: String?) {
-                // Update the UI
-                workoutTextView.text = data
-                Log.d("Exercise Change","New workout $data")
+        // Use the ExerciseLogicUtils to get the exercise logic
+        val exerciseUtil = ExerciseLogicUtils()
+        viewModel.setExerciseLogic(exerciseUtil.readAllExercise(assets.open("exercise_rule.csv"),exerciseList))
+
+
+        viewModel.getCurrentExercise().observe(this) { data -> // Update the UI
+            workoutTextView.text = data
+            Log.d("Exercise Change", "New workout $data")
+        }
+
+        viewModel.getCurrentFeedback().observe(this) { data ->
+            if (data != null) {
+                updateFeedBack(data)
             }
-        })
-        viewModel.getCurrentFeedback().observe(this,object:Observer<String>{
-            override fun onChanged(data:String?){
-                if (data != null) {
-                    updateFeedBack(data)
-                }
-                Log.d("Feedback", "$data")
+            Log.d("Feedback", "$data")
+        }
+
+        viewModel.getCurrentScore().observe(this) { data ->
+            if (data != null) {
+                repetitionTextView.text = "Count: $data"
             }
-        })
-        viewModel.getCurrentScore().observe(this,object:Observer<Int>{
-            override fun onChanged(data:Int?){
-                if (data != null) {
-                    repetitionTextView.text = "Count: $data"
-                }
-                Log.d("Score Changed","$data")
+            Log.d("Score Changed", "$data")
+        }
+
+        viewModel.getCurrentRepetition().observe(this) { t -> Log.d("Repetition Changed", "$t") }
+
+        viewModel.getCurrentTimeLeft().observe(this) { timeLeft ->
+            if (timeLeft != null) {
+                //Format the time to display from milliseconds to MM:SS
+                val seconds = timeLeft / 1000
+                val displayMinute = seconds / 60
+                val displaySecond = seconds % 60
+                timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
+                Log.d("Time Left Changed", "${"%02d:%02d".format(displayMinute, displaySecond)}")
             }
-        })
-        viewModel.getCurrentRepetition().observe(this,object:Observer<Int>{
-            override fun onChanged(t: Int?) {
-                Log.d("Repetition Changed", "$t")
-            }
-        })
-        viewModel.getCurrentTimeLeft().observe(this,object:Observer<Int>{
-            override fun onChanged(timeLeft: Int?) {
-                if (timeLeft != null) {
-                    //Format the time to display from milliseconds to MM:SS
-                    val seconds = timeLeft / 1000
-                    val displayMinute = seconds / 60
-                    val displaySecond = seconds % 60
-                    timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
-                    Log.d("Time Left Changed", "${"%02d:%02d".format(displayMinute, displaySecond)}")
-                }
-            }
-        })
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -158,9 +152,10 @@ class Workout : AppCompatActivity() {
 
     fun updateFeedBack(feedback : String){
         // Update the current feedback after 2 seconds, run on a separate thread
-        Handler(Looper.getMainLooper()).postDelayed({
-            feedbackTextView.text = feedback
-        }, 2000)
+        feedbackTextView.text = feedback
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            feedbackTextView.text = feedback
+//        }, 2000)
     }
     fun goToPrevious(view: View){
         // Update the previous exercise

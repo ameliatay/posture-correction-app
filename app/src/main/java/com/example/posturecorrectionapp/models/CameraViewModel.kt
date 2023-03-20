@@ -4,9 +4,13 @@ import android.app.Person
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.posturecorrectionapp.data.Exercise
 import java.lang.Thread.sleep
 
 class CameraViewModel : ViewModel() {
+
+    //StaticData
+    private var exerciseLogic = HashMap<String, ExerciseRule> ()
 
     //LiveData
     // Store the current exercise
@@ -23,9 +27,19 @@ class CameraViewModel : ViewModel() {
     private var currentTimeLeft = MutableLiveData<Int>()
     //Store the state
     private var isTimerRunning = MutableLiveData<Boolean>()
+    //Store the current pose
+    private var currentPose = MutableLiveData<String>()
 
 
     //Getter and Setter
+    fun getExerciseLogic(): HashMap<String, ExerciseRule> {
+        return exerciseLogic
+    }
+
+    fun setExerciseLogic(exerciseLogic: HashMap<String, ExerciseRule>) {
+        this.exerciseLogic = exerciseLogic
+    }
+
     fun getCurrentExercise(): MutableLiveData<String> {
         return currentExercise
     }
@@ -82,10 +96,24 @@ class CameraViewModel : ViewModel() {
         isTimerRunning.value = state
     }
 
+    fun getCurrentPose(): MutableLiveData<String> {
+        return currentPose
+    }
+
+    fun setCurrentPose(pose: String) {
+        currentPose.value = pose
+    }
+
+    fun addCount(feedback: String) {
+        if (currentFeedback.value != feedback) {
+            currentRepetition.value = currentRepetition.value?.plus(1)
+            currentScore.value = currentScore.value?.plus(1)
+        }
+
+    }
+
 
     //Other functions
-
-
 
     //OnCleared
     override fun onCleared() {
