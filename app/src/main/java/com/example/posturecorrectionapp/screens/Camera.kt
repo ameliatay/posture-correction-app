@@ -29,20 +29,21 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.posturecorrectionapp.R
 import com.example.posturecorrectionapp.data.Device
+import com.example.posturecorrectionapp.data.Exercise
 import com.example.posturecorrectionapp.data.Person
+import com.example.posturecorrectionapp.data.PoseRule
 import com.example.posturecorrectionapp.ml.ModelType
 import com.example.posturecorrectionapp.ml.MoveNet
 import com.example.posturecorrectionapp.ml.PoseClassifier
 import com.example.posturecorrectionapp.models.CameraViewModel
-import com.example.posturecorrectionapp.utils.AngleCheckingUtils
-import com.example.posturecorrectionapp.utils.VisualizationUtils
-import com.example.posturecorrectionapp.utils.YuvToRgbConverter
-import com.example.posturecorrectionapp.utils.TextToSpeechUtils
+import com.example.posturecorrectionapp.models.ExerciseRule
+import com.example.posturecorrectionapp.utils.*
 import com.google.common.util.concurrent.ListenableFuture
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.*
 import java.util.concurrent.Executors
+import kotlin.collections.HashMap
 
 class Camera : Fragment() {
 
@@ -67,6 +68,7 @@ class Camera : Fragment() {
     private var classifier: PoseClassifier? = null
     private val lock = Any()
     private var cameraFacing = false
+    private val exerciseLogicUtils = ExerciseLogicUtils()
 
     private lateinit var cameraToggle: Button
     private lateinit var safeContext: Context
@@ -76,6 +78,7 @@ class Camera : Fragment() {
     private lateinit var v: View
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var exercise: ExerciseRule
 
     // Use ViewModel by Workout Activity
     private lateinit var cameraViewModel: CameraViewModel
@@ -124,6 +127,7 @@ class Camera : Fragment() {
         //find resource id based on exercise name from ViewModel
 
         //Set up a listener to observe for changes in the ViewModel
+
         //and update the GIF accordingly
         cameraViewModel.getCurrentExercise().observe(viewLifecycleOwner) {
             Log.d("Camera", "Exercise: $it")
@@ -140,7 +144,24 @@ class Camera : Fragment() {
                     .into(v.findViewById<ImageView>(R.id.imageView))
 
             }
+            //Retrieve the exerciseMap from the ViewModel
+            val exerciseMap = cameraViewModel.getExerciseLogic()
+            Log.d("Camera", "Exercise Map: $exerciseMap")
+            //Retrieve the current exercise from the ViewModel
+            val currentExercise = cameraViewModel.getCurrentExercise().value
+
+            exercise = if (exerciseMap != null && currentExercise != null && exerciseMap.containsKey(currentExercise)) {
+                //Retrieve the exercise from the exerciseMap
+                exerciseMap[currentExercise]!!
+            }else{
+                //create empty map
+                val map = HashMap<String, List<PoseRule>>().toMap()
+                ExerciseRule("","",map)
+            }
+            Log.d("Camera", "Exercise: ${exercise.toString()}")
         }
+
+
 
         //Observe for changes in the ViewModel
         cameraViewModel.getIsTimerRunning().observe(viewLifecycleOwner) {
@@ -324,31 +345,6 @@ class Camera : Fragment() {
         })
     }
 
-    // Angle Checking Feedback
-    private fun feedback(person: List<Person>){
-        // get people with score > 0.01
-        val persons = person.filter { it.score > 0.01 }
-
-        // get the first person
-        val person = persons[0]
-
-        //Perform Angle Check
-        val angleCheck = AngleCheckingUtils.checkAngle(person)
-
-        //Get Feedback
-        if (!angleCheck){
-            //Update ViewModel with feedback
-            val text = "Bad Posture"
-            cameraViewModel.setCurrentFeedback(text)
-            ttsUtil.speak(text)
-        }else{
-            //Update ViewModel with feedback
-            val text = "Good Posture"
-            cameraViewModel.setCurrentFeedback(text)
-            ttsUtil.speak(text)
-        }
-    }
-
     //Process Image
     @androidx.annotation.OptIn(androidx.camera.core.ExperimentalGetImage::class)
     private fun processImage(imageProxy:ImageProxy, bitmap: Bitmap) {
@@ -394,13 +390,17 @@ class Camera : Fragment() {
                     Log.d(TAG, "persons: ${persons[0].keyPoints}")
                     classifier?.run {
                         var temp = classify(persons[0])
-                        if (temp.isNotEmpty()) {
-                            classificationResult = temp
-                            Log.d(TAG, "classificationResult: ${classificationResult?.get(0)}")
-                            //See 2nd and 3rd results
-                            Log.d(TAG, "classificationResult: ${classificationResult?.get(1)}")
-                            Log.d(TAG, "classificationResult: ${classificationResult?.get(2)}")
+                        //get relevant pose
+                        var pose = exerciseLogicUtils.getRelevantPoseFromClassificationModel(temp, exercise)
+                        var feedback = ""
+                        if (pose != "None") {
+                            feedback = exerciseLogicUtils.getFeedbackFromPose(pose, exercise,persons[0])
                         }
+                        if (feedback == "Good Job!") {
+                            //Update ViewModel with count +1
+                            addCount(feedback)
+                        }
+                        updateClassify(feedback,pose)
                     }
                 }
             }
@@ -410,10 +410,18 @@ class Camera : Fragment() {
         activity?.runOnUiThread(Runnable {
             visualize(persons, rotatedBitmap)
         })
+    }
 
-        // Run in background thread
+    private fun addCount(feedback:String) {
+        activity?.runOnUiThread(Runnable {
+            cameraViewModel.addCount(feedback)
+        })
+    }
+
+    private fun updateClassify(it1: String, pose: String) {
         Handler(Looper.getMainLooper()).post {
-            feedback(persons)
+            cameraViewModel.setCurrentPose(pose)
+            cameraViewModel.setCurrentFeedback(it1)
         }
     }
 
