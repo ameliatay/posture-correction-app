@@ -1,5 +1,6 @@
 package com.example.posturecorrectionapp
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.*
 import android.util.Log
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.posturecorrectionapp.models.CameraViewModel
 import com.example.posturecorrectionapp.utils.ExerciseLogicUtils
+import com.example.posturecorrectionapp.utils.TextToSpeechUtils
 import kotlin.properties.Delegates
 
 class Workout : AppCompatActivity() {
@@ -38,6 +40,8 @@ class Workout : AppCompatActivity() {
     private var workoutRoutine = ArrayList<Map<String,String>>()
     private var currentIndex = 0
 
+    private lateinit var ttsUtil: TextToSpeechUtils
+
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +62,8 @@ class Workout : AppCompatActivity() {
 
         setContentView(R.layout.activity_workout)
 
+        //Start TTS
+        startTTS(this)
 
         // Initialise the UI
         workoutTextView = findViewById(R.id.WorkoutText)
@@ -91,6 +97,8 @@ class Workout : AppCompatActivity() {
         viewModel.getCurrentScore().observe(this) { data ->
             if (data != null) {
                 repetitionTextView.text = "Count: $data"
+                ttsUtil.speak("$data")
+
             }
             Log.d("Score Changed", "$data")
         }
@@ -153,6 +161,7 @@ class Workout : AppCompatActivity() {
     fun updateFeedBack(feedback : String){
         // Update the current feedback after 2 seconds, run on a separate thread
         feedbackTextView.text = feedback
+        ttsUtil.speak(feedback)
 //        Handler(Looper.getMainLooper()).postDelayed({
 //            feedbackTextView.text = feedback
 //        }, 2000)
@@ -221,6 +230,16 @@ class Workout : AppCompatActivity() {
     fun pauseTimer(){
         timer.cancel()
         viewModel.setIsTimerRunning(false)
+    }
+
+    private fun startTTS(context: Context) {
+        ttsUtil = TextToSpeechUtils()
+        ttsUtil.init(context)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ttsUtil.destroy()
     }
 
 }

@@ -83,7 +83,6 @@ class Camera : Fragment() {
     // Use ViewModel by Workout Activity
     private lateinit var cameraViewModel: CameraViewModel
 
-    private lateinit var ttsUtil: TextToSpeechUtils
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -201,7 +200,6 @@ class Camera : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun startCamera(context: Context) {
-        startTTS(context)
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             cameraProvider = cameraProviderFuture.get()
@@ -417,6 +415,11 @@ class Camera : Fragment() {
             cameraViewModel.addCount(feedback)
         })
     }
+//    private fun callFeedback(feedback:String) {
+//        activity?.runOnUiThread(Runnable {
+//            ttsUtil.speak(feedback)
+//        })
+//    }
 
     private fun updateClassify(it1: String, pose: String) {
         Handler(Looper.getMainLooper()).post {
@@ -425,14 +428,14 @@ class Camera : Fragment() {
         }
     }
 
-    private fun startTTS(context: Context) {
-        ttsUtil = TextToSpeechUtils()
-        ttsUtil.init(context)
-    }
+//    private fun startTTS(context: Context) {
+//        ttsUtil = TextToSpeechUtils()
+//        ttsUtil.init(context)
+//    }
 
     // Close all resources when fragment is destroyed
     override fun onDestroy() {
-        ttsUtil.destroy()
+//        ttsUtil.destroy()
         super.onDestroy()
         detector?.close()
         classifier?.close()

@@ -1,5 +1,5 @@
 ﻿exercise,pose,rulename,bodypart_1,bodypart_2,bodypart_3,min_angle,max_angle
 squat,squats_up,left_full_stand,LEFT_HIP,LEFT_KNEE,LEFT_ANKLE,160,180
 squat,squats_up,right_full_stand,RIGHT_HIP,RIGHT_KNEE,RIGHT_ANKLE,160,180
-squat,squats_down,left_knees_not_bent,LEFT_HIP,LEFT_KNEE,LEFT_ANKLE,30,120
-squat,squats_down,right_knees_not_bent,RIGHT_HIP,RIGHT_KNEE,RIGHT_ANKLE,30,120
+squat,squats_down,left knees not bend,LEFT_HIP,LEFT_KNEE,LEFT_ANKLE,30,120
+squat,squats_down,right knees  not bent,RIGHT_HIP,RIGHT_KNEE,RIGHT_ANKLE,30,120
