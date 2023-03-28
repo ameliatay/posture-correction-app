@@ -8,6 +8,47 @@ import com.example.posturecorrectionapp.models.ProgramCard
 
 class Datasource {
 
+    // programs
+    fun loadHiitProgram() : List<ProgramCard> {
+        return listOf<ProgramCard>(
+            ProgramCard(R.string.category5, R.string.hiit3, R.string.rating4_2, R.string.duration40m, R.mipmap.hiit3),
+            ProgramCard(R.string.category8, R.string.hiit1, R.string.rating4_5, R.string.duration50m, R.mipmap.hiit1),
+            ProgramCard(R.string.category7, R.string.hiit4, R.string.rating4_8, R.string.duration45m, R.mipmap.hiit4),
+            ProgramCard(R.string.category1, R.string.hiit5, R.string.rating4_7, R.string.duration1h, R.mipmap.hiit5),
+            ProgramCard(R.string.category6, R.string.hiit2, R.string.rating4_6, R.string.duration15m, R.mipmap.hiit2),
+        )
+    }
+
+    fun loadBarreProgram() : List<ProgramCard>{
+        return listOf<ProgramCard>(
+            ProgramCard(R.string.category5, R.string.barre1, R.string.rating4_4, R.string.duration45m, R.mipmap.barre1),
+            ProgramCard(R.string.category6, R.string.barre2, R.string.rating4_7, R.string.duration30m, R.mipmap.barre2),
+            ProgramCard(R.string.category5, R.string.barre3, R.string.rating4_8, R.string.duration50m, R.mipmap.barre3),
+            ProgramCard(R.string.category9, R.string.barre4, R.string.rating4_5, R.string.duration40m, R.mipmap.barre4),
+            ProgramCard(R.string.category7, R.string.barre5, R.string.rating4_9, R.string.duration1h, R.mipmap.barre5)
+        )
+    }
+
+    fun loadCrossfitProgram() : List<ProgramCard>{
+        return listOf<ProgramCard>(
+            ProgramCard(R.string.category5, R.string.crossfit1, R.string.rating4_5, R.string.duration50m, R.mipmap.crossfit1),
+            ProgramCard(R.string.category4, R.string.crossfit2, R.string.rating4_2, R.string.duration40m, R.mipmap.crossfit2),
+            ProgramCard(R.string.category7, R.string.crossfit3, R.string.rating4_7, R.string.duration1h, R.mipmap.crossfit3),
+            ProgramCard(R.string.category4, R.string.crossfit4, R.string.rating4_6, R.string.duration45m, R.mipmap.crossfit4),
+            ProgramCard(R.string.category1, R.string.crossfit5, R.string.rating4_4, R.string.duration30m, R.mipmap.crossfit5)
+        )
+    }
+
+    fun loadPilatesProgram() : List<ProgramCard>{
+        return listOf<ProgramCard>(
+            ProgramCard(R.string.category1, R.string.pilates1, R.string.rating4_7, R.string.duration45m, R.mipmap.pilates1),
+            ProgramCard(R.string.category5, R.string.pilates2, R.string.rating4_9, R.string.duration1h, R.mipmap.pilates2),
+            ProgramCard(R.string.category9, R.string.pilates3, R.string.rating4_5, R.string.duration30m, R.mipmap.pilates3),
+            ProgramCard(R.string.category6, R.string.pilates4, R.string.rating4_6, R.string.duration40m, R.mipmap.pilates4),
+            ProgramCard(R.string.category7, R.string.pilates5, R.string.rating4_8, R.string.duration50m, R.mipmap.pilates5)
+        )
+    }
+
     fun loadCarouselItems() : List<CarouselItem> {
         return listOf<CarouselItem>(
             CarouselItem(R.mipmap.sit_ups_anim, R.string.itemTitle1, R.string.itemSubtitle1, 1),
@@ -20,9 +61,9 @@ class Datasource {
 
     fun loadJumpBackIn() : List<ProgramCard> {
         return listOf<ProgramCard>(
-            ProgramCard(R.string.category1, R.string.program1, R.string.rating4_7, R.string.duration1h30m, R.mipmap.walking),
-            ProgramCard(R.string.category1, R.string.program2, R.string.rating5_0, R.string.duration30m, R.mipmap.barre4),
-            ProgramCard(R.string.category1, R.string.program3, R.string.rating4_6, R.string.duration50m, R.mipmap.crossfit2)
+            ProgramCard(R.string.category1, R.string.program1, R.string.rating4_7, R.string.duration1h30m, R.mipmap.hiit1),
+            ProgramCard(R.string.category1, R.string.program2, R.string.rating5_0, R.string.duration30m, R.mipmap.hiit2),
+            ProgramCard(R.string.category1, R.string.program3, R.string.rating4_6, R.string.duration50m, R.mipmap.hiit3)
         )
     }
 
