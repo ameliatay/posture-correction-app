@@ -1,6 +1,7 @@
 package com.example.posturecorrectionapp.screens
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -16,6 +17,13 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
     private lateinit var barreAdapter: ProgramsAdapter
     private lateinit var crossfitAdapter: ProgramsAdapter
     private lateinit var pilatesAdapter: ProgramsAdapter
+
+    private lateinit var hiitDataset: List<ProgramCard>
+    private lateinit var barreDataset: List<ProgramCard>
+    private lateinit var crossfitDataset: List<ProgramCard>
+    private lateinit var pilatesDataset: List<ProgramCard>
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -23,29 +31,29 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
         val searchView = view.findViewById<SearchView>(R.id.search_view)
 
         // hiit
-        val hiitDataset = Datasource().loadHiitProgram()
-        val hiitAdapter = ProgramsAdapter(this, hiitDataset)
+        hiitDataset = Datasource().loadHiitProgram()
+        hiitAdapter = ProgramsAdapter(this, hiitDataset)
         val hiit_rv = getView()?.findViewById<RecyclerView>(R.id.hiit_rv)
         hiit_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         hiit_rv?.adapter = hiitAdapter
 
         // barre
-        val barreDataset = Datasource().loadBarreProgram()
-        val barreAdapter = ProgramsAdapter(this, barreDataset)
+        barreDataset = Datasource().loadBarreProgram()
+        barreAdapter = ProgramsAdapter(this, barreDataset)
         val barre_rv = getView()?.findViewById<RecyclerView>(R.id.barre_rv)
         barre_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         barre_rv?.adapter = barreAdapter
 
         // crossfit
-        val crossfitDataset = Datasource().loadCrossfitProgram()
-        val crossfitAdapter = ProgramsAdapter(this, crossfitDataset)
+        crossfitDataset = Datasource().loadCrossfitProgram()
+        crossfitAdapter = ProgramsAdapter(this, crossfitDataset)
         val crossfit_rv = getView()?.findViewById<RecyclerView>(R.id.crossfit_rv)
         crossfit_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         crossfit_rv?.adapter = crossfitAdapter
 
         // pilates
-        val pilatesDataset = Datasource().loadPilatesProgram()
-        val pilatesAdapter = ProgramsAdapter(this, pilatesDataset)
+        pilatesDataset = Datasource().loadPilatesProgram()
+        pilatesAdapter = ProgramsAdapter(this, pilatesDataset)
         val pilates_rv = getView()?.findViewById<RecyclerView>(R.id.pilates_rv)
         pilates_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         pilates_rv?.adapter = pilatesAdapter
@@ -58,6 +66,7 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 // Filter your adapter here based on the search query
+                Log.d("",newText)
                 // Filter hiit dataset
                 val filteredHiitDataset = filterDataset(hiitDataset, newText)
                 hiitAdapter.filterDataset(filteredHiitDataset)
@@ -79,9 +88,17 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
     }
 
     private fun filterDataset(dataset: List<ProgramCard>, query: String): List<ProgramCard> {
+        // Filter dataset
         return dataset.filter {
-            it.programStringId.toString().contains(query, true) || it.categoryStringId.toString().contains(query, true)
+            checkIfContains(it, query)
         }
+    }
+
+    private fun checkIfContains(card: ProgramCard, query: String): Boolean {
+        //Find string value of programStringId and categoryStringId from resource ID
+        val programString = resources.getString(card.programStringId)
+        val categoryString = resources.getString(card.categoryStringId)
+        return programString.contains(query, true) || categoryString.contains(query, true)
     }
 
 }

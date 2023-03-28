@@ -1,5 +1,6 @@
 package com.example.posturecorrectionapp.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class ProgramsAdapter(private val context: ProgramsFragment,
 
     override fun getItemCount() = dataset.size
     fun filterDataset(newDataset: List<ProgramCard>) {
+        Log.d("ProgramsAdapter", "filterDataset: ${newDataset.size}")
         dataset = newDataset
         notifyDataSetChanged()
     }
