@@ -8,10 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.posturecorrectionapp.R
 import com.example.posturecorrectionapp.models.ProgramCard
-import com.example.posturecorrectionapp.screens.HomeFragment
+import com.example.posturecorrectionapp.screens.ProgramsFragment
 
-class ProgramCardAdapter(private val context: HomeFragment,
-                         private val dataset: List<ProgramCard>): RecyclerView.Adapter<ProgramCardAdapter.ItemViewHolder>() {
+class ProgramsAdapter(private val context: ProgramsFragment,
+                      private var dataset: List<ProgramCard>): RecyclerView.Adapter<ProgramsAdapter.ItemViewHolder>() {
 
     var onItemClick: ((ProgramCard) -> Unit)? = null
 
@@ -46,4 +46,8 @@ class ProgramCardAdapter(private val context: HomeFragment,
     }
 
     override fun getItemCount() = dataset.size
+    fun filterDataset(newDataset: List<ProgramCard>) {
+        dataset = newDataset
+        notifyDataSetChanged()
+    }
 }
