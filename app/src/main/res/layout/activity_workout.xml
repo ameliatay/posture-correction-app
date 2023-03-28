@@ -11,10 +11,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:visibility="visible"
         android:name="com.example.posturecorrectionapp.screens.Camera"
         android:id="@+id/cameraPreview"
         tools:layout="@layout/fragment_camera" />

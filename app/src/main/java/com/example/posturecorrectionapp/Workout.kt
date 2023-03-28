@@ -1,6 +1,7 @@
 package com.example.posturecorrectionapp
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.*
 import android.util.Log
@@ -10,11 +11,15 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.posturecorrectionapp.models.CameraViewModel
+import com.example.posturecorrectionapp.screens.Camera
+import com.example.posturecorrectionapp.screens.NavigationActivity
 import com.example.posturecorrectionapp.utils.ExerciseLogicUtils
 import com.example.posturecorrectionapp.utils.TextToSpeechUtils
+import java.lang.Thread.sleep
 import kotlin.properties.Delegates
 
 class Workout : AppCompatActivity() {
@@ -26,6 +31,7 @@ class Workout : AppCompatActivity() {
     private var isTimerRunning = false
     private var duration by Delegates.notNull<Int>()
 
+
     //Exercise Related
     private lateinit var workoutTextView: TextView
     private lateinit var feedbackTextView: TextView
@@ -34,13 +40,13 @@ class Workout : AppCompatActivity() {
     private lateinit var prevButton: Button
     private lateinit var nextButton: Button
     private lateinit var startPauseButton : Button
-//    private var workoutTime = 10000 //Currently Hardcoded for testing
 
     //Data Related
     private var workoutRoutine = ArrayList<Map<String,String>>()
     private var currentIndex = 0
 
     private lateinit var ttsUtil: TextToSpeechUtils
+    private lateinit var fragment: Camera
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +67,8 @@ class Workout : AppCompatActivity() {
         window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         setContentView(R.layout.activity_workout)
+
+        fragment = supportFragmentManager.findFragmentById(R.id.cameraPreview) as Camera
 
         //Start TTS
         startTTS(this)
@@ -84,6 +92,13 @@ class Workout : AppCompatActivity() {
 
         viewModel.getCurrentExercise().observe(this) { data -> // Update the UI
             workoutTextView.text = data
+            if (currentIndex !== 0) {
+                ttsUtil.speak(data)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    startPauseButton.performClick()
+                }, 2000)
+            }
+
             Log.d("Exercise Change", "New workout $data")
         }
 
@@ -113,6 +128,27 @@ class Workout : AppCompatActivity() {
                 val displaySecond = seconds % 60
                 timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
                 Log.d("Time Left Changed", "${"%02d:%02d".format(displayMinute, displaySecond)}")
+            }
+            if (timeLeft == 0 && timeLeft != null ) {
+                if (currentIndex == workoutRoutine.size - 1) {
+                    ttsUtil.speak("Workout is completed")
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        finish()
+                    }, 3000)
+                }
+
+                Log.d("Time Left Changed", "Time is up")
+                ttsUtil.speak("Time is up. Next")
+
+                if (currentIndex < workoutRoutine.size) {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        nextButton.performClick()
+                    }, 3000)
+                }
+
+                if (currentIndex > 0) {
+                    prevButton.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -192,6 +228,8 @@ class Workout : AppCompatActivity() {
             Log.d("Timer", "startPause: start timer")
             startTimer()
             startPauseButton.text = "Pause"
+            fragment.updateView()
+
         } else {
             // Pause timer
             pauseTimer()

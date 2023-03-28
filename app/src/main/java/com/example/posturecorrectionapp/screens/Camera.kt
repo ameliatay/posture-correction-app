@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.camera.core.*
@@ -131,6 +132,13 @@ class Camera : Fragment() {
         cameraViewModel.getCurrentExercise().observe(viewLifecycleOwner) {
             Log.d("Camera", "Exercise: $it")
             Log.d("Camera", "Package Name: ${resources.getIdentifier(it, "drawable", safeContext.applicationContext.packageName).toInt()}")
+            // if exercise is break, set image to break
+            if(it == "break"){
+                v.findViewById<LinearLayout>(R.id.restingScreen).visibility = View.VISIBLE
+            }else{
+                v.findViewById<LinearLayout>(R.id.restingScreen).visibility = View.INVISIBLE
+            }
+
             val resourceId = resources.getIdentifier(it, "drawable", safeContext.applicationContext.packageName).toInt()
             if (resourceId == 0) {
                 Log.d("Camera", "Resource ID not found")
@@ -200,6 +208,7 @@ class Camera : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun startCamera(context: Context) {
+        v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             cameraProvider = cameraProviderFuture.get()
@@ -221,46 +230,55 @@ class Camera : Fragment() {
             }
 
         }, ContextCompat.getMainExecutor(this.requireContext()))
+        v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.INVISIBLE
     }
 
 
     private fun startInference() {
-
-        val surfaceView = v.findViewById<ImageView>(R.id.surfaceView)
-        //Based on landscape mode or portrait mode, set the size of image based on width or height of surfaceView
-        val size = if (surfaceView.width > surfaceView.height) {
-            Size(surfaceView.width, surfaceView.height)
-        } else {
-            Size(surfaceView.height, surfaceView.width)
-        }
-
-        val imageAnalysis = ImageAnalysis.Builder()
-            .setTargetResolution(size)
-            .setTargetRotation(v.display.rotation)
-            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-            .build()
-            .also {
-                it.setAnalyzer(cameraExecutor, PoseAnalyzer())
+        v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.VISIBLE
+        if (cameraViewModel.getCurrentExercise().value == "break") {
+            v.findViewById<LinearLayout>(R.id.restingScreen).visibility = View.VISIBLE
+        }else{
+            v.findViewById<LinearLayout>(R.id.restingScreen).visibility = View.INVISIBLE
+            v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
+            val surfaceView = v.findViewById<ImageView>(R.id.surfaceView)
+            //Based on landscape mode or portrait mode, set the size of image based on width or height of surfaceView
+            val size = if (surfaceView.width > surfaceView.height) {
+                Size(surfaceView.width, surfaceView.height)
+            } else {
+                Size(surfaceView.height, surfaceView.width)
             }
 
-        try {
-            // Unbind use cases before rebinding
-            cameraProvider.unbindAll()
+            val imageAnalysis = ImageAnalysis.Builder()
+                .setTargetResolution(size)
+                .setTargetRotation(v.display.rotation)
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .build()
+                .also {
+                    it.setAnalyzer(cameraExecutor, PoseAnalyzer())
+                }
 
-            // Bind use cases to camera
-            cameraProvider.bindToLifecycle(
-                this, cameraSelector, preview,imageCapture,imageAnalysis)
+            try {
+                // Unbind use cases before rebinding
+                cameraProvider.unbindAll()
 
-            Log.d(TAG, "TRYYY ${v.findViewById<PreviewView>(R.id.previewView).surfaceProvider}")
-            preview!!.setSurfaceProvider(v.findViewById<PreviewView>(R.id.previewView).surfaceProvider)
+                // Bind use cases to camera
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview,imageCapture,imageAnalysis)
 
-        } catch(exc: Exception) {
-            exc.printStackTrace()
-            Log.e(TAG, "Use case binding failed", exc)
+                Log.d(TAG, "TRYYY ${v.findViewById<PreviewView>(R.id.previewView).surfaceProvider}")
+                preview!!.setSurfaceProvider(v.findViewById<PreviewView>(R.id.previewView).surfaceProvider)
+
+            } catch(exc: Exception) {
+                exc.printStackTrace()
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+            ContextCompat.getMainExecutor(this.requireContext())
+            createPoseEstimator()
+            createPoseClassifier()
+            v.findViewById<ImageView>(R.id.surfaceView).visibility = View.VISIBLE
         }
-        ContextCompat.getMainExecutor(this.requireContext())
-        createPoseEstimator()
-        createPoseClassifier()
+        v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.INVISIBLE
     }
 
     fun getOutputDirectory(): File {
@@ -340,6 +358,9 @@ class Camera : Fragment() {
 
         activity?.runOnUiThread(Runnable {
             surfaceView.setImageBitmap(outputBitmap)
+            if (v.findViewById<LinearLayout>(R.id.loadingScreen).visibility == View.VISIBLE) {
+                v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.GONE
+            }
         })
     }
 
@@ -439,6 +460,11 @@ class Camera : Fragment() {
         super.onDestroy()
         detector?.close()
         classifier?.close()
+    }
+
+    fun updateView() {
+        val surfaceView = v.findViewById<ImageView>(R.id.surfaceView)
+        surfaceView.setImageBitmap(null)
     }
 
     // Class for Pose Estimation

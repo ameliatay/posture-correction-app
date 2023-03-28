@@ -29,7 +29,8 @@ class CameraViewModel : ViewModel() {
     private var isTimerRunning = MutableLiveData<Boolean>()
     //Store the current pose
     private var currentPose = MutableLiveData<String>()
-
+    //Store the boolean value of whether the exercise is finished
+    private var curExerciseIndex = MutableLiveData<Int>()
 
     //Getter and Setter
     fun getExerciseLogic(): HashMap<String, ExerciseRule> {
@@ -110,6 +111,15 @@ class CameraViewModel : ViewModel() {
             currentScore.value = currentScore.value?.plus(1)
         }
 
+    }
+
+
+    fun getCurExerciseIndex(): MutableLiveData<Int> {
+        return curExerciseIndex
+    }
+
+    fun setCurExerciseIndex(index: Int) {
+        curExerciseIndex.value = index
     }
 
 
