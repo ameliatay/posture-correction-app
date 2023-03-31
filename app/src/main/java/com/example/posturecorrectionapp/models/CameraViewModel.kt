@@ -11,7 +11,6 @@ class CameraViewModel : ViewModel() {
 
     //StaticData
     private var exerciseLogic = HashMap<String, ExerciseRule> ()
-
     //LiveData
     // Store the current exercise
     private var currentExercise = MutableLiveData<String>()
@@ -31,6 +30,7 @@ class CameraViewModel : ViewModel() {
     private var currentPose = MutableLiveData<String>()
     //Store the boolean value of whether the exercise is finished
     private var curExerciseIndex = MutableLiveData<Int>()
+
 
     //Getter and Setter
     fun getExerciseLogic(): HashMap<String, ExerciseRule> {

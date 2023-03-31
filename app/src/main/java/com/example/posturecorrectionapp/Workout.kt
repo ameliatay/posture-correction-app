@@ -89,14 +89,15 @@ class Workout : AppCompatActivity() {
         val exerciseUtil = ExerciseLogicUtils()
         viewModel.setExerciseLogic(exerciseUtil.readAllExercise(assets.open("exercise_rule.csv"),exerciseList))
 
-
         viewModel.getCurrentExercise().observe(this) { data -> // Update the UI
             workoutTextView.text = data
-            if (currentIndex !== 0) {
+            if (currentIndex !== 0 && !isTimerRunning) {
                 ttsUtil.speak(data)
+                ttsUtil.speak("Start")
+//                startPauseButton.performClick()
                 Handler(Looper.getMainLooper()).postDelayed({
                     startPauseButton.performClick()
-                }, 2000)
+                }, 3000)
             }
 
             Log.d("Exercise Change", "New workout $data")
@@ -128,26 +129,25 @@ class Workout : AppCompatActivity() {
                 val displaySecond = seconds % 60
                 timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
                 Log.d("Time Left Changed", "${"%02d:%02d".format(displayMinute, displaySecond)}")
-            }
-            if (timeLeft == 0 && timeLeft != null ) {
-                if (currentIndex == workoutRoutine.size - 1) {
-                    ttsUtil.speak("Workout is completed")
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        finish()
-                    }, 3000)
-                }
 
-                Log.d("Time Left Changed", "Time is up")
-                ttsUtil.speak("Time is up. Next")
+                if (timeLeft == 0) {
+                    if (currentIndex == workoutRoutine.size - 1) {
+                        ttsUtil.speak("Workout is completed")
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            finish()
+                        }, 3000)
+                    }
 
-                if (currentIndex < workoutRoutine.size) {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        nextButton.performClick()
-                    }, 3000)
-                }
+                    if (currentIndex < workoutRoutine.size -1 && viewModel.getCurExerciseIndex().value!=currentIndex) {
+                        ttsUtil.speak("Time is up. Next")
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            nextButton.performClick()
+                        }, 3000)
+                    }
 
-                if (currentIndex > 0) {
-                    prevButton.visibility = View.VISIBLE
+                    if (currentIndex > 0) {
+                        prevButton.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -167,13 +167,8 @@ class Workout : AppCompatActivity() {
     }
 
     fun updateExercise(index : Int){
-        // Update the current exercise
-        viewModel.setCurrentExercise(workoutRoutine[index]["name"]!!)
-        viewModel.setCurrentRepetition(0)
-        viewModel.setCurrentScore(0)
-        viewModel.setCurrentFeedback("")
+
         val workoutTime = workoutRoutine[index]["duration"]!!.toInt() *1000
-        viewModel.setCurrentTimeLeft(workoutTime)
 
         //Format the time to display from milliseconds to MM:SS
         val seconds = workoutTime / 1000
@@ -192,6 +187,14 @@ class Workout : AppCompatActivity() {
         }else{
             nextButton.visibility = View.VISIBLE
         }
+        // Update the current exercise
+        viewModel.setCurrentExercise(workoutRoutine[index]["name"]!!)
+        viewModel.setCurrentRepetition(0)
+        viewModel.setCurrentScore(0)
+        viewModel.setCurrentFeedback("")
+        viewModel.setIsTimerRunning(false)
+        isTimerRunning = false
+        viewModel.setCurrentTimeLeft(workoutTime)
     }
 
     fun updateFeedBack(feedback : String){
@@ -247,6 +250,7 @@ class Workout : AppCompatActivity() {
         }
         Log.d("Timer", "startTimer: $duration")
         viewModel.setIsTimerRunning(true)
+        isTimerRunning = true
         timer = object : CountDownTimer(duration.toLong(), 100) {
             override fun onTick(millisUntilFinished: Long) {
                 duration -= 100
