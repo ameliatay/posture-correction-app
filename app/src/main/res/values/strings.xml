@@ -7,21 +7,38 @@
     <string name="Front">Front Camera</string>
     <string name="Back">Back Camera</string>
 
-    <string-array name="hiit_names">
-        <item name="hiit1">Full Body Workout for Fat Burning</item>
-        <item name="hiit2">Cardio Workout for Beginners</item>
-        <item name="hiit3">Workout with Weights for Strength Training</item>
-        <item name="hiit4">Abs Workout for a Total Body Burn</item>
-        <item name="hiit5">HIIT Workout for Endurance and Stamina</item>
-    </string-array>
+    <!-- HIIT Program Names -->
+    <string name="hiit1">Full Body Fat Burn Workout</string>
+    <string name="hiit2">Cardio Workout for Beginners</string>
+    <string name="hiit3">Weighted Strength Training</string>
+    <string name="hiit4">Total Body Burn Abs Workout</string>
+    <string name="hiit5">Endurance and Stamina</string>
 
-    <string-array name="barre_names">
-        <item name="barre1">Intermediate Barre Burner</item>
-        <item name="barre2">Sculpting for Toned Legs</item>
-        <item name="barre3">Full-Body Barre Workout for All Levels</item>
-        <item name="barre4">Barre Fusion: Yoga and Pilates Inspired</item>
-        <item name="barre5">Barre Bootcamp: High-Intensity, Low-Impact</item>
-    </string-array>
+    <!-- Barre Program Names -->
+    <string name="barre1">Intermediate Burner</string>
+    <string name="barre2">Toned Legs Sculpting</string>
+    <string name="barre3">Full-Body Workout</string>
+    <string name="barre4">Barre Fusion</string>
+    <string name="barre5">Barre Bootcamp</string>
+    <string name="barre6">Arms &amp; Shoulders Sculpt</string>
+    <string name="barre7">Lower Body Burn</string>
+    <string name="barre8">Yoga-Pilates Fusion</string>
+    <string name="barre9">High-Intensity Bootcamp</string>
+    <string name="barre10">Stretch &amp; Tone</string>
+
+    <!-- Crossfit Program Names -->
+    <string name="crossfit1">Full Body Crossfit</string>
+    <string name="crossfit2">Crossfit Endurance</string>
+    <string name="crossfit3">Crossfit Muscle Builder</string>
+    <string name="crossfit4">Crossfit HIIT Burner</string>
+    <string name="crossfit5">Crossfit Gymnastics Mastery</string>
+
+    <!-- Pilates Program Names -->
+    <string name="pilates1">Mat Core Strength</string>
+    <string name="pilates2">Reformer Body Sculpting</string>
+    <string name="pilates3">Flexibility and Balance</string>
+    <string name="pilates4">Barre Fusion Sculpting</string>
+    <string name="pilates5">Cardio Jump Board</string>
 
     <!-- Introduction Carousel Items -->
     <string name="itemTitle1">Welcome to PocketTrainer</string>
@@ -61,18 +78,25 @@
     <string name="category9">Yoga</string>
 
     <!-- Ratings -->
-    <string name="rating4.5">4.5/5.0</string>
-    <string name="rating4.6">4.6/5.0</string>
-    <string name="rating4.7">4.7/5.0</string>
-    <string name="rating4.8">4.8/5.0</string>
-    <string name="rating4.9">4.9/5.0</string>
-    <string name="rating5.0">5.0/5.0</string>
+    <string name="rating4_2">4.2/5.0</string>
+    <string name="rating4_3">4.3/5.0</string>
+    <string name="rating4_4">4.4/5.0</string>
+    <string name="rating4_5">4.5/5.0</string>
+    <string name="rating4_6">4.6/5.0</string>
+    <string name="rating4_7">4.7/5.0</string>
+    <string name="rating4_8">4.8/5.0</string>
+    <string name="rating4_9">4.9/5.0</string>
+    <string name="rating5_0">5.0/5.0</string>
 
     <!-- Durations -->
     <string name="duration30m">30m</string>
     <string name="duration40m">40m</string>
     <string name="duration50m">50m</string>
     <string name="duration1h30m">1h 30m</string>
+    <string name="duration10m">10m</string>
+    <string name="duration15m">15m</string>
+    <string name="duration45m">45m</string>
+    <string name="duration1h">1h</string>
 
     <!-- Difficulty -->
     <string name="beginner">Beginner</string>

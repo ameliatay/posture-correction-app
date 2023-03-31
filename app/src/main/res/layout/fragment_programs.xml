@@ -8,970 +8,149 @@
     android:orientation="vertical" >
 
     <ScrollView
-        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--            search bar goes here-->
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tvTitle"
+                android:id="@+id/tvUserGreeting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="24sp"
                 android:paddingTop="28sp"
                 android:text="Programs"
                 android:theme="@style/HeaderOne" />
-<!--
+
+            <!--searchview -->
             <SearchView
-                android:id="@+id/searchBar"
+                android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="24sp"
-                android:background="@drawable/searchview_bg"
-                android:iconifiedByDefault="false"
-                android:queryHint="Yoga, pilates, crossfit..." />
--->
-            <!--          hiit &ndash;&gt; -->
+                android:queryHint="Search for exercises"/>
+
+            <!-- search bar-->
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="50sp"-->
+<!--                android:layout_marginHorizontal="24sp"-->
+<!--                android:layout_marginVertical="12sp"-->
+<!--                app:cardBackgroundColor="#F1EFED"-->
+<!--                app:cardElevation="0sp"-->
+<!--                app:cardCornerRadius="12dp">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <ImageView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:paddingLeft="12sp"-->
+<!--                        android:paddingVertical="12sp"-->
+<!--                        android:src="@drawable/search"-->
+<!--                        android:scaleType="centerCrop" />-->
+
+<!--                    <EditText-->
+<!--                        android:id="@+id/search_button"-->
+<!--                        android:layout_width="230sp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginHorizontal="8sp"-->
+<!--                        android:theme="@style/Search"-->
+<!--                        android:hint="Search for exercises"-->
+<!--                        android:background="@null"-->
+<!--                        android:inputType="textPersonName" />-->
+
+<!--                </LinearLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+            <!--        hiit program-->
             <TextView
-                android:id="@+id/hiit"
+                android:id="@+id/hiit_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="16dp"
-                android:gravity="left"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="24sp"
+                android:paddingBottom="4sp"
                 android:text="HIIT"
-                android:textColor="#002147"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:theme="@style/HeaderTwo" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/hiit_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="20dp">
+                android:orientation="horizontal"
+                android:paddingStart="12sp"
+                android:paddingEnd="12sp"
+                android:clipToPadding="false" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/hiitcard1"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/hiit1" />
-
-                            <TextView
-                                android:id="@+id/hiit1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="HIIT 1"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/hiitcard2"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/hiit2" />
-
-                            <TextView
-                                android:id="@+id/hiit2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="HIIT 2"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/hiitcard3"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/hiit3" />
-
-                            <TextView
-                                android:id="@+id/hiit3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="HIIT 3"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/hiitcard4"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/hiit4" />
-
-                            <TextView
-                                android:id="@+id/hiit4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="HIIT 4"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/hiitcard5"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/hiit5" />
-
-                            <TextView
-                                android:id="@+id/hiit5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="HIIT 5"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <!-->   barre &ndash;&gt; -->
+            <!--        barre program-->
             <TextView
-                android:id="@+id/barre"
+                android:id="@+id/barre_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="16dp"
-                android:gravity="left"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="24sp"
+                android:paddingBottom="4sp"
                 android:text="Barre"
-                android:textColor="#002147"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:theme="@style/HeaderTwo" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/barre_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="20dp">
+                android:orientation="horizontal"
+                android:paddingStart="12sp"
+                android:paddingEnd="12sp"
+                android:clipToPadding="false" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/barrecard1"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/barre1" />
-
-                            <TextView
-                                android:id="@+id/barre1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Barre 1"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/barrecard2"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/barre2" />
-
-                            <TextView
-                                android:id="@+id/barre2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Barre 2"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/barrecard3"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/barre3" />
-
-                            <TextView
-                                android:id="@+id/barre3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Barre 3"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/barrecard4"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/barre4" />
-
-                            <TextView
-                                android:id="@+id/barre4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Barre 4"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/barrecard5"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/barre5" />
-
-                            <TextView
-                                android:id="@+id/barre5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Barre 5"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
-            </HorizontalScrollView>-->
-
-            <!--            crossfit-->
-
+            <!--        crossfit program-->
             <TextView
-                android:id="@+id/crossfit"
+                android:id="@+id/crossfit_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="16dp"
-                android:gravity="left"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="24sp"
+                android:paddingBottom="4sp"
                 android:text="Crossfit"
-                android:textColor="#002147"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:theme="@style/HeaderTwo" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/crossfit_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="20dp">
+                android:orientation="horizontal"
+                android:paddingStart="12sp"
+                android:paddingEnd="12sp"
+                android:clipToPadding="false" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/crossfitcard1"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/crossfit1" />
-
-                            <TextView
-                                android:id="@+id/crossfit1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Crossfit 1"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/crossfitcard2"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/crossfit2" />
-
-                            <TextView
-                                android:id="@+id/crossfit2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Crossfit 2"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/crossfitcard3"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/crossfit3" />
-
-                            <TextView
-                                android:id="@+id/crossfit3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Crossfit 3"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/crossfitcard4"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/crossfit4" />
-
-                            <TextView
-                                android:id="@+id/crossfit4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Crossfit 4"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/crossfitcard5"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/crossfit5" />
-
-                            <TextView
-                                android:id="@+id/crossfit5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Crossfit 5"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <!--            pilates-->
-
+            <!--        pilates program-->
             <TextView
-                android:id="@+id/pilates"
+                android:id="@+id/pilates_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="16dp"
-                android:gravity="left"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="24sp"
+                android:paddingBottom="4sp"
                 android:text="Pilates"
-                android:textColor="#002147"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:theme="@style/HeaderTwo" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pilates_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="5dp"
-                android:paddingBottom="20dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/pilates1"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginVertical="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/pilates1" />
-
-                            <TextView
-                                android:id="@+id/p1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Pilates 1"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/pilates2"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginVertical="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/pilates2" />
-
-                            <TextView
-                                android:id="@+id/p2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Pilates 2"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/pilates3"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginVertical="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/pilates3" />
-
-                            <TextView
-                                android:id="@+id/p3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Pilates 3"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/pilates4"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginVertical="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/pilates4" />
-
-                            <TextView
-                                android:id="@+id/p4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Pilates 4"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/pilates5"
-                        android:layout_width="200dp"
-                        android:layout_height="150dp"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginVertical="15dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="20dp"
-                        app:cardElevation="20dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp"
-                                android:layout_marginBottom="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/pilates5" />
-
-                            <TextView
-                                android:id="@+id/p5"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="Pilates 5"
-                                android:textColor="#002147"></TextView>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="10dp"
-                                android:text="0 h 30 min"
-                                android:textColor="#00a2c6"></TextView>
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                </LinearLayout>
-            </HorizontalScrollView>
+                android:orientation="horizontal"
+                android:paddingStart="12sp"
+                android:paddingEnd="12sp"
+                android:clipToPadding="false" />
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
