@@ -1,13 +1,20 @@
 package com.example.posturecorrectionapp.data
 
 import com.example.posturecorrectionapp.R
-import com.example.posturecorrectionapp.models.CarouselItem
-import com.example.posturecorrectionapp.models.CategoryCard
-import com.example.posturecorrectionapp.models.Exercises
-import com.example.posturecorrectionapp.models.ProgramCard
+import com.example.posturecorrectionapp.models.*
 
 class Datasource {
 
+    fun loadProfile():List<ListItem>{
+        return listOf<ListItem>(
+            ListItem("Profile", R.drawable.icon_profile),
+            ListItem("Notifications", R.drawable.icon_notification),
+            ListItem("Security", R.drawable.icon_security),
+            ListItem("Help", R.drawable.icon_help),
+            ListItem("Dark Theme", R.drawable.icon_profile),
+            ListItem("Logout", R.drawable.icon_profile)
+        )
+    }
     // programs
     fun loadHiitProgram() : List<ProgramCard> {
         return listOf<ProgramCard>(
@@ -108,6 +115,13 @@ class Datasource {
             Exercises(R.string.exercise2, R.string.category1, R.string.advanced, R.mipmap.crossfit3),
             Exercises(R.string.exercise3, R.string.category1, R.string.beginner, R.mipmap.crossfit4),
             Exercises(R.string.exercise4, R.string.category1, R.string.intermediate, R.mipmap.barre5),
+        )
+    }
+
+    fun loadExercisesDemo() : List<Exercises> {
+        return listOf<Exercises>(
+            Exercises(R.string.exercise5, R.string.category10, R.string.beginner, R.mipmap.crossfit2),
+            Exercises(R.string.exercise1, R.string.category10, R.string.beginner, R.mipmap.crossfit3),
         )
     }
 }
