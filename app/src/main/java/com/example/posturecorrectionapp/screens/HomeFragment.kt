@@ -39,13 +39,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     fun goToWorkout() {
         var workoutRoutine = ArrayList<Map<String,String>>()
-        workoutRoutine.add(mapOf("name" to "squat", "duration" to "60"))
-        workoutRoutine.add(mapOf("name" to "treepose", "duration" to "60"))
-        workoutRoutine.add(mapOf("name" to "pushup", "duration" to "60"))
+        workoutRoutine.add(mapOf("name" to "squat", "duration" to "5"))
+        workoutRoutine.add(mapOf("name" to "break", "duration" to "5"))
+        workoutRoutine.add(mapOf("name" to "treepose", "duration" to "5"))
+        workoutRoutine.add(mapOf("name" to "break", "duration" to "5"))
+//        workoutRoutine.add(mapOf("name" to "pushup", "duration" to "25"))
 
         var it = Intent(activity, Workout::class.java)
         it.putExtra("workoutRoutine", workoutRoutine)
         startActivity(it)
-        activity?.finish()
     }
 }

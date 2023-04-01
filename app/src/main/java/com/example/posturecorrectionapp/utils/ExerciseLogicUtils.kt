@@ -126,6 +126,9 @@ class ExerciseLogicUtils {
         poseLs: List<Pair<String, Float>>,
         exercise: ExerciseRule
     ): String {
+        if (poseLs.isEmpty()) {
+            return "None"
+        }
         //get relevant pose from exercise
         val relevantPose = exercise.exerciseRule!!.keys
         //get the pose with the highest score
@@ -136,6 +139,9 @@ class ExerciseLogicUtils {
             }
         }
         Log.d( "ExerciseLogicUtils", "getRelevantPoseFromClassificationModel: $relevantClassification")
+        if (relevantClassification.isEmpty()) {
+            return "None"
+        }
         var maxPose = relevantClassification[0].first
         var maxScore = relevantClassification[0].second
         for (pose in relevantClassification) {
@@ -144,9 +150,9 @@ class ExerciseLogicUtils {
                 maxPose = pose.first
             }
         }
-        if (maxScore < 0.5) {
-            maxPose = "None"
-        }
+//        if (maxScore < 0.1) {
+//            maxPose = "None"
+//        }
         Log.d("ExerciseLogicUtils", "getRelevantPoseFromClassificationModel: $maxPose")
         return maxPose
     }

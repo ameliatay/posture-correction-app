@@ -45,6 +45,10 @@ class TextToSpeechUtils : TextToSpeech.OnInitListener {
         tts!!.speak(text, TextToSpeech.QUEUE_ADD, null,"")
     }
 
+    fun speakNow(text: String) {
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
+    }
+
     fun destroy() {
         // Shutdown TTS Engine to release resources
         if (tts != null) {

@@ -3,7 +3,9 @@ package com.example.posturecorrectionapp.screens
 import android.Manifest
 import android.graphics.*
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -16,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.camera.core.*
@@ -83,7 +86,6 @@ class Camera : Fragment() {
     // Use ViewModel by Workout Activity
     private lateinit var cameraViewModel: CameraViewModel
 
-    private lateinit var ttsUtil: TextToSpeechUtils
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -101,7 +103,6 @@ class Camera : Fragment() {
 
         // Use ViewModel by Workout Activity
         cameraViewModel = ViewModelProvider(requireActivity())[CameraViewModel::class.java]
-
         cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
         cameraToggle = v.findViewById<Button>(R.id.switchCameraButton)
         preview = Preview.Builder().build()
@@ -132,6 +133,15 @@ class Camera : Fragment() {
         cameraViewModel.getCurrentExercise().observe(viewLifecycleOwner) {
             Log.d("Camera", "Exercise: $it")
             Log.d("Camera", "Package Name: ${resources.getIdentifier(it, "drawable", safeContext.applicationContext.packageName).toInt()}")
+            // if exercise is break, set image to break
+            if(it == "break"){
+                v.findViewById<LinearLayout>(R.id.restingScreen).visibility = View.VISIBLE
+                v.findViewById<ImageView>(R.id.imageView).visibility = View.INVISIBLE
+            }else{
+                v.findViewById<LinearLayout>(R.id.restingScreen).visibility = View.INVISIBLE
+                v.findViewById<ImageView>(R.id.imageView).visibility = View.VISIBLE
+            }
+
             val resourceId = resources.getIdentifier(it, "drawable", safeContext.applicationContext.packageName).toInt()
             if (resourceId == 0) {
                 Log.d("Camera", "Resource ID not found")
@@ -161,17 +171,15 @@ class Camera : Fragment() {
             Log.d("Camera", "Exercise: ${exercise.toString()}")
         }
 
-
-
-        //Observe for changes in the ViewModel
-        cameraViewModel.getIsTimerRunning().observe(viewLifecycleOwner) {
-            if (it) {
-                // Start the inference
-                v.findViewById<ImageView>(R.id.surfaceView).visibility = View.VISIBLE
+        //Observe for changes in state
+        cameraViewModel.getExerciseState().observe(viewLifecycleOwner) {
+            Log.d("Camera", "Exercise State: $it")
+            if (it == "start") {
+                v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
                 v.findViewById<PreviewView>(R.id.previewView).visibility = View.INVISIBLE
                 v.findViewById<Button>(R.id.switchCameraButton).visibility = View.INVISIBLE
                 startInference()
-            } else {
+            }else{
                 v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
                 v.findViewById<PreviewView>(R.id.previewView).visibility = View.VISIBLE
                 v.findViewById<Button>(R.id.switchCameraButton).visibility = View.VISIBLE
@@ -199,9 +207,21 @@ class Camera : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    // on Rotation
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(safeContext, "landscape", Toast.LENGTH_SHORT).show()
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(safeContext, "portrait", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.R)
     private fun startCamera(context: Context) {
-        startTTS(context)
+        // Allow activity to freely rotate
+        v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
         cameraProviderFuture.addListener({
             // Used to bind the lifecycle of cameras to the lifecycle owner
             cameraProvider = cameraProviderFuture.get()
@@ -223,46 +243,59 @@ class Camera : Fragment() {
             }
 
         }, ContextCompat.getMainExecutor(this.requireContext()))
+        v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.INVISIBLE
+        // Allow activity to freely rotate
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
     }
 
 
     private fun startInference() {
-
-        val surfaceView = v.findViewById<ImageView>(R.id.surfaceView)
-        //Based on landscape mode or portrait mode, set the size of image based on width or height of surfaceView
-        val size = if (surfaceView.width > surfaceView.height) {
-            Size(surfaceView.width, surfaceView.height)
-        } else {
-            Size(surfaceView.height, surfaceView.width)
-        }
-
-        val imageAnalysis = ImageAnalysis.Builder()
-            .setTargetResolution(size)
-            .setTargetRotation(v.display.rotation)
-            .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-            .build()
-            .also {
-                it.setAnalyzer(cameraExecutor, PoseAnalyzer())
+        // Prevent screen from rotating during inference
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.VISIBLE
+        if (cameraViewModel.getCurrentExercise().value == "break") {
+            v.findViewById<LinearLayout>(R.id.restingScreen).visibility = View.VISIBLE
+        }else{
+            v.findViewById<LinearLayout>(R.id.restingScreen).visibility = View.INVISIBLE
+            v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
+            val surfaceView = v.findViewById<ImageView>(R.id.surfaceView)
+            //Based on landscape mode or portrait mode, set the size of image based on width or height of surfaceView
+            val size = if (surfaceView.width > surfaceView.height) {
+                Size(surfaceView.width, surfaceView.height)
+            } else {
+                Size(surfaceView.height, surfaceView.width)
             }
 
-        try {
-            // Unbind use cases before rebinding
-            cameraProvider.unbindAll()
+            val imageAnalysis = ImageAnalysis.Builder()
+                .setTargetResolution(size)
+//                .setTargetRotation(v.display.rotation)
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .build()
+                .also {
+                    it.setAnalyzer(cameraExecutor, PoseAnalyzer())
+                }
 
-            // Bind use cases to camera
-            cameraProvider.bindToLifecycle(
-                this, cameraSelector, preview,imageCapture,imageAnalysis)
+            try {
+                // Unbind use cases before rebinding
+                cameraProvider.unbindAll()
 
-            Log.d(TAG, "TRYYY ${v.findViewById<PreviewView>(R.id.previewView).surfaceProvider}")
-            preview!!.setSurfaceProvider(v.findViewById<PreviewView>(R.id.previewView).surfaceProvider)
+                // Bind use cases to camera
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview,imageCapture,imageAnalysis)
 
-        } catch(exc: Exception) {
-            exc.printStackTrace()
-            Log.e(TAG, "Use case binding failed", exc)
+                Log.d(TAG, "TRYYY ${v.findViewById<PreviewView>(R.id.previewView).surfaceProvider}")
+                preview!!.setSurfaceProvider(v.findViewById<PreviewView>(R.id.previewView).surfaceProvider)
+
+            } catch(exc: Exception) {
+                exc.printStackTrace()
+                Log.e(TAG, "Use case binding failed", exc)
+            }
+            ContextCompat.getMainExecutor(this.requireContext())
+            createPoseEstimator()
+            createPoseClassifier()
+            v.findViewById<ImageView>(R.id.surfaceView).visibility = View.VISIBLE
         }
-        ContextCompat.getMainExecutor(this.requireContext())
-        createPoseEstimator()
-        createPoseClassifier()
+        v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.INVISIBLE
     }
 
     fun getOutputDirectory(): File {
@@ -342,6 +375,9 @@ class Camera : Fragment() {
 
         activity?.runOnUiThread(Runnable {
             surfaceView.setImageBitmap(outputBitmap)
+            if (v.findViewById<LinearLayout>(R.id.loadingScreen).visibility == View.VISIBLE) {
+                v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.GONE
+            }
         })
     }
 
@@ -376,7 +412,6 @@ class Camera : Fragment() {
         )
 
         val persons = mutableListOf<Person>()
-        var classificationResult: List<Pair<String,Float>>? = null
 
         synchronized(lock) {
             detector?.estimatePoses(rotatedBitmap)?.let { it ->
@@ -418,6 +453,7 @@ class Camera : Fragment() {
         })
     }
 
+
     private fun updateClassify(it1: String, pose: String) {
         Handler(Looper.getMainLooper()).post {
             cameraViewModel.setCurrentPose(pose)
@@ -425,18 +461,20 @@ class Camera : Fragment() {
         }
     }
 
-    private fun startTTS(context: Context) {
-        ttsUtil = TextToSpeechUtils()
-        ttsUtil.init(context)
-    }
-
     // Close all resources when fragment is destroyed
     override fun onDestroy() {
-        ttsUtil.destroy()
         super.onDestroy()
         detector?.close()
         classifier?.close()
     }
+
+    fun clearView() {
+        val surfaceView = v.findViewById<ImageView>(R.id.surfaceView)
+        surfaceView.setImageBitmap(null)
+        //Show Loading Screen
+        v.findViewById<LinearLayout>(R.id.loadingScreen).visibility = View.VISIBLE
+    }
+
 
     // Class for Pose Estimation
     private inner class PoseAnalyzer() : ImageAnalysis.Analyzer {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Workout">
 
 
@@ -23,13 +24,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Exercise Name"
                 android:layout_gravity="center"
                 android:id="@+id/WorkoutText"
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:textColor="@color/black"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -37,6 +43,8 @@
                 android:layout_gravity="center"
                 android:text="Exercise Feedback"
                 android:id="@+id/feedbackText"
+                android:layout_weight="1"
+                android:textSize="15dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -44,44 +52,57 @@
                 android:layout_gravity="center"
                 android:text="Count: 0"
                 android:id="@+id/repetitionText"
+                android:layout_weight="1"
+                android:textSize="15dp"
                 />
-            <EditText
-                android:id="@+id/timer"
-                android:layout_width="wrap_content"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:minHeight="48dp"
-                android:text="00:00"
-                android:clickable="false"
-                android:inputType="time" />
+                android:layout_weight="2"
+                >
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:max="100"
+                    android:progress="10"
+                    app:trackColor="@color/design_default_color_primary"
+                    app:indicatorColor="@color/design_default_color_secondary"
+                    android:id="@+id/progressBar"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="00:00"
+                    android:textFontWeight="700"
+                    android:id="@+id/timer"
+                    app:layout_constraintBottom_toBottomOf="@id/progressBar"
+                    app:layout_constraintEnd_toEndOf="@id/progressBar"
+                    app:layout_constraintStart_toStartOf="@id/progressBar"
+                    app:layout_constraintTop_toTopOf="@id/progressBar"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="vertical">
-                <Button
-                    android:id="@+id/previousButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="goToPrevious"
-                    android:text="Previous"
-                    android:theme="@style/PinkButton"/>
+                android:orientation="horizontal"
+                android:layout_weight="1">
 
                 <Button
                     android:id="@+id/startButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:onClick="startPause"
                     android:text="Start"
-                    android:theme="@style/PinkButton"/>
-
-                <Button
-                    android:id="@+id/nextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="goToNext"
-                    android:text="Next"
                     android:theme="@style/PinkButton"/>
 
             </LinearLayout>

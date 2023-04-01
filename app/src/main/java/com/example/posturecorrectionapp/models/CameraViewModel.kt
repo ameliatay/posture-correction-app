@@ -21,14 +21,15 @@ class CameraViewModel : ViewModel() {
     private var currentFeedback = MutableLiveData<String>()
     // Store the current score
     private var currentScore = MutableLiveData<Int>()
-    // Store the current peopleLandMarkInfo
-    private var currentPeopleLandMarkLs = MutableLiveData<List<Person>>()
     // Store the current time left
     private var currentTimeLeft = MutableLiveData<Int>()
     //Store the state
     private var isTimerRunning = MutableLiveData<Boolean>()
     //Store the current pose
     private var currentPose = MutableLiveData<String>()
+
+    //Store the current exercise state
+    private var exerciseState = MutableLiveData<String>()
 
 
     //Getter and Setter
@@ -72,13 +73,6 @@ class CameraViewModel : ViewModel() {
         currentScore.value = score
     }
 
-    fun getCurrentPeopleLandMarkLs(): MutableLiveData<List<Person>> {
-        return currentPeopleLandMarkLs
-    }
-
-    fun setCurrentPeopleLandMarkLs(peopleLandMarkLs: List<Person>) {
-        currentPeopleLandMarkLs.value = peopleLandMarkLs
-    }
 
     fun getCurrentTimeLeft(): MutableLiveData<Int> {
         return currentTimeLeft
@@ -109,9 +103,23 @@ class CameraViewModel : ViewModel() {
             currentRepetition.value = currentRepetition.value?.plus(1)
             currentScore.value = currentScore.value?.plus(1)
         }
-
     }
 
+    fun getExerciseState(): MutableLiveData<String> {
+        return exerciseState
+    }
+
+    fun startExercise() {
+        exerciseState.value = "start"
+    }
+
+    fun pauseExercise() {
+        exerciseState.value = "pause"
+    }
+
+    fun endExercise() {
+        exerciseState.value = "end"
+    }
 
     //Other functions
 
