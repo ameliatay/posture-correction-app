@@ -1,13 +1,20 @@
 package com.example.posturecorrectionapp.data
 
 import com.example.posturecorrectionapp.R
-import com.example.posturecorrectionapp.models.CarouselItem
-import com.example.posturecorrectionapp.models.CategoryCard
-import com.example.posturecorrectionapp.models.Exercises
-import com.example.posturecorrectionapp.models.ProgramCard
+import com.example.posturecorrectionapp.models.*
 
 class Datasource {
 
+    fun loadProfile():List<ListItem>{
+        return listOf<ListItem>(
+            ListItem("Profile", R.drawable.icon_profile),
+            ListItem("Notifications", R.drawable.icon_notification),
+            ListItem("Security", R.drawable.icon_security),
+            ListItem("Help", R.drawable.icon_help),
+            ListItem("Dark Theme", R.drawable.icon_profile),
+            ListItem("Logout", R.drawable.icon_profile)
+        )
+    }
     // programs
     fun loadHiitProgram() : List<ProgramCard> {
         return listOf<ProgramCard>(
