@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextClock
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -16,9 +18,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.posturecorrectionapp.models.CameraViewModel
 import com.example.posturecorrectionapp.screens.Camera
+import com.example.posturecorrectionapp.screens.ExerciseCompleteActivity
 import com.example.posturecorrectionapp.screens.NavigationActivity
 import com.example.posturecorrectionapp.utils.ExerciseLogicUtils
 import com.example.posturecorrectionapp.utils.TextToSpeechUtils
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import java.lang.Thread.sleep
 import kotlin.properties.Delegates
 
@@ -31,15 +35,13 @@ class Workout : AppCompatActivity() {
     private var isTimerRunning = false
     private var duration by Delegates.notNull<Int>()
 
-
     //Exercise Related
     private lateinit var workoutTextView: TextView
     private lateinit var feedbackTextView: TextView
     private lateinit var repetitionTextView: TextView
-    private lateinit var timerView: EditText
-    private lateinit var prevButton: Button
-    private lateinit var nextButton: Button
+    private lateinit var timerView: TextView
     private lateinit var startPauseButton : Button
+    private lateinit var progressIndicator: CircularProgressIndicator
 
     //Data Related
     private var workoutRoutine = ArrayList<Map<String,String>>()
@@ -48,6 +50,15 @@ class Workout : AppCompatActivity() {
     private lateinit var ttsUtil: TextToSpeechUtils
     private lateinit var fragment: Camera
 
+    private val getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == 1){
+            finish()
+        }
+        else if (result.resultCode == 2){
+            restart()
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +66,11 @@ class Workout : AppCompatActivity() {
 
         //Read the workout routine from the intent
         workoutRoutine = intent.getSerializableExtra("workoutRoutine") as ArrayList<Map<String, String>>
+
+        // if the workout routine is empty, go back to the navigation page
+        if (workoutRoutine.isEmpty()){
+            finish()
+        }
 
         //Get list of exercises names from the workout routine
         val exerciseList = workoutRoutine.map { it["name"] }.toList()
@@ -78,12 +94,17 @@ class Workout : AppCompatActivity() {
         feedbackTextView = findViewById(R.id.feedbackText)
         repetitionTextView = findViewById(R.id.repetitionText)
         timerView = findViewById(R.id.timer)
-        prevButton = findViewById(R.id.previousButton)
-        nextButton = findViewById(R.id.nextButton)
         startPauseButton = findViewById(R.id.startButton)
+        progressIndicator = findViewById(R.id.progressBar)
 
         // Invoke Function to set the update the exercise
         updateExercise(currentIndex)
+
+        duration = workoutRoutine[currentIndex]["duration"]!!.toInt()*1000
+        timerView.setText("%02d:%02d".format(duration / 1000 / 60, duration / 1000 % 60))
+        // Update the progress bar
+        progressIndicator.max = duration
+        progressIndicator.progress = 0
 
         // Use the ExerciseLogicUtils to get the exercise logic
         val exerciseUtil = ExerciseLogicUtils()
@@ -91,15 +112,6 @@ class Workout : AppCompatActivity() {
 
         viewModel.getCurrentExercise().observe(this) { data -> // Update the UI
             workoutTextView.text = data
-            if (currentIndex !== 0 && !isTimerRunning) {
-                ttsUtil.speak(data)
-                ttsUtil.speak("Start")
-//                startPauseButton.performClick()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    startPauseButton.performClick()
-                }, 3000)
-            }
-
             Log.d("Exercise Change", "New workout $data")
         }
 
@@ -113,165 +125,205 @@ class Workout : AppCompatActivity() {
         viewModel.getCurrentScore().observe(this) { data ->
             if (data != null) {
                 repetitionTextView.text = "Count: $data"
-                ttsUtil.speak("$data")
-
+                if (data > 1) {
+                    ttsUtil.speak("$data")
+                }
             }
             Log.d("Score Changed", "$data")
         }
 
-        viewModel.getCurrentRepetition().observe(this) { t -> Log.d("Repetition Changed", "$t") }
 
-        viewModel.getCurrentTimeLeft().observe(this) { timeLeft ->
-            if (timeLeft != null) {
-                //Format the time to display from milliseconds to MM:SS
-                val seconds = timeLeft / 1000
-                val displayMinute = seconds / 60
-                val displaySecond = seconds % 60
-                timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
-                Log.d("Time Left Changed", "${"%02d:%02d".format(displayMinute, displaySecond)}")
-
-                if (timeLeft == 0) {
-                    if (currentIndex == workoutRoutine.size - 1) {
-                        ttsUtil.speak("Workout is completed")
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            finish()
-                        }, 3000)
-                    }
-
-                    if (currentIndex < workoutRoutine.size -1 && viewModel.getCurExerciseIndex().value!=currentIndex) {
-                        ttsUtil.speak("Time is up. Next")
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            nextButton.performClick()
-                        }, 3000)
-                    }
-
-                    if (currentIndex > 0) {
-                        prevButton.visibility = View.VISIBLE
-                    }
+        // Set the onClickListener for the startPauseButton
+        startPauseButton.setOnClickListener {
+            Log.d("Workout", "exercieState: ${viewModel.getExerciseState().value}")
+            // Check view model state for workout
+            when (viewModel.getExerciseState().value) {
+                null -> {
+                    //Start workout
+                    startWorkout()
+                }
+                "pause" -> {
+                    //Resume workout
+                    resumeWorkout()
+                }
+                "start" -> {
+                    //Pause workout
+                    pauseWorkout()
                 }
             }
+
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.d("Workout", "onSaveInstanceState: ")
-        // Check configuration landscape or portrait
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setContentView(R.layout.activity_workout)
-            Log.d("Workout", "onSaveInstanceState: landscape" )
-        } else if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
-            setContentView(R.layout.activity_workout)
-            Log.d("Workout", "onSaveInstanceState: potrait" )
-        }
+    private fun goToComplete() {
+        val intent = Intent(this, ExerciseCompleteActivity::class.java)
+        intent.putExtra("numberOfExercisesCompleted", workoutRoutine.size.toString())
+        val duration = workoutRoutine.map { it["duration"] }.reduce { acc, s -> (acc!!.toInt() + s!!.toInt()).toString() }
+        intent.putExtra("duration", duration)
+        Log.d("duration", duration?:"null")
+        Log.d("workoutRoutine", workoutRoutine.size.toString())
+        getResult.launch(intent)
     }
+
+    private fun restart() {
+        val intent = Intent(this, Workout::class.java)
+        intent.putExtra("workoutRoutine", workoutRoutine)
+        startActivity(intent)
+        finish()
+    }
+
 
     fun updateExercise(index : Int){
-
-        val workoutTime = workoutRoutine[index]["duration"]!!.toInt() *1000
-
-        //Format the time to display from milliseconds to MM:SS
-        val seconds = workoutTime / 1000
-        val displayMinute = seconds / 60
-        val displaySecond = seconds % 60
-        timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
-
-        if (currentIndex == 0) {
-            prevButton.visibility = View.INVISIBLE
-        }else{
-            prevButton.visibility = View.VISIBLE
-        }
-
-        if (currentIndex == workoutRoutine.size - 1) {
-            nextButton.visibility = View.INVISIBLE
-        }else{
-            nextButton.visibility = View.VISIBLE
-        }
         // Update the current exercise
         viewModel.setCurrentExercise(workoutRoutine[index]["name"]!!)
         viewModel.setCurrentRepetition(0)
         viewModel.setCurrentScore(0)
         viewModel.setCurrentFeedback("")
-        viewModel.setIsTimerRunning(false)
-        isTimerRunning = false
-        viewModel.setCurrentTimeLeft(workoutTime)
     }
 
     fun updateFeedBack(feedback : String){
-        // Update the current feedback after 2 seconds, run on a separate thread
         feedbackTextView.text = feedback
         ttsUtil.speak(feedback)
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            feedbackTextView.text = feedback
-//        }, 2000)
-    }
-    fun goToPrevious(view: View){
-        // Update the previous exercise
-        if (currentIndex > 0){
-            currentIndex -= 1
-            updateExercise(currentIndex)
-        }
-        startPauseButton.text = "Start"
     }
 
-    fun goToNext(view: View){
-        // Update the next exercise
-        if (currentIndex < workoutRoutine.size - 1){
-            currentIndex += 1
-            updateExercise(currentIndex)
-        }
-        startPauseButton.text = "Start"
-    }
+    fun startWorkout(){
+        // update the index
+        currentIndex = 0
+        // Update the exercise
+        updateExercise(currentIndex)
+        // Get duration from the workoutRoutine
+        duration = workoutRoutine[currentIndex]["duration"]!!.toInt()*1000
+        timerView.setText("%02d:%02d".format(duration / 1000 / 60, duration / 1000 % 60))
+        // Update the progress bar
+        progressIndicator.max = duration
+        progressIndicator.progress = 0
 
-    fun startPause(view: View){
-        Log.d("Timer", "startPause:Clicked")
-        // Check if timer is running
-        if (!isTimerRunning){
-            // Start timer
-            Log.d("Timer", "startPause: start timer")
-            startTimer()
-            startPauseButton.text = "Pause"
-            fragment.updateView()
 
-        } else {
-            // Pause timer
-            pauseTimer()
-            startPauseButton.text = "Start"
-        }
-        isTimerRunning = !isTimerRunning
-    }
+        //Clear the camera's surface view
+        fragment.clearView()
 
-    fun startTimer(){
-        // Get the time from the timerView
-        if (viewModel.getCurrentTimeLeft().value!! >0){
-            duration = viewModel.getCurrentTimeLeft().value!!
-        } else {
-            duration = workoutRoutine[currentIndex]["duration"]!!.toInt()*1000
-        }
-        Log.d("Timer", "startTimer: $duration")
-        viewModel.setIsTimerRunning(true)
-        isTimerRunning = true
+        // Initialize the timer
         timer = object : CountDownTimer(duration.toLong(), 100) {
             override fun onTick(millisUntilFinished: Long) {
                 duration -= 100
-                // Update the timer
-                viewModel.setCurrentTimeLeft(duration)
+                // Update the view
+                val seconds = duration / 1000
+                val displayMinute = seconds / 60
+                val displaySecond = seconds % 60
+                timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
+                // Update the progress bar
+                progressIndicator.progress = duration
             }
-
             override fun onFinish() {
-                startPauseButton.text = "Restart"
-                isTimerRunning = false
-                viewModel.setCurrentTimeLeft(0)
-                viewModel.setIsTimerRunning(false)
+                triggerNextExercise()
             }
         }
-        timer.start()
 
+        // Update the button
+        startPauseButton.text = "Pause"
+        // Update the flag
+        isTimerRunning = true
+        // Update the viewModel
+        viewModel.startExercise()
+
+        ttsUtil.speak("${workoutRoutine[currentIndex]["name"]}")
+        sleep(1000)
+        timer.start()
     }
 
-    fun pauseTimer(){
+    fun triggerNextExercise(){
+        // Check if the current exercise is the last exercise
+        //Clear the camera's surface view
+        fragment.clearView()
+        if (currentIndex == workoutRoutine.size - 1) {
+            // Workout is completed
+            ttsUtil.speakNow("Workout is completed")
+            goToComplete()
+        } else {
+            // Workout is not completed
+            // Update the index
+            currentIndex += 1
+            // Update the exercise
+            updateExercise(currentIndex)
+            // Get duration from the workoutRoutine
+            duration = workoutRoutine[currentIndex]["duration"]!!.toInt()*1000
+            timerView.setText("%02d:%02d".format(duration / 1000 / 60, duration / 1000 % 60))
+            // Update the progress bar
+            progressIndicator.max = duration
+            progressIndicator.progress = 0
+
+            // Initialize the timer
+            timer = object : CountDownTimer(duration.toLong(), 100) {
+                override fun onTick(millisUntilFinished: Long) {
+                    duration -= 100
+                    // Update the view
+                    val seconds = duration / 1000
+                    val displayMinute = seconds / 60
+                    val displaySecond = seconds % 60
+                    timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
+                    // Update the progress bar
+                    progressIndicator.progress = duration
+                }
+                override fun onFinish() {
+                    triggerNextExercise()
+                }
+            }
+
+            // Update the button
+            startPauseButton.text = "Pause"
+            // Update the flag
+            isTimerRunning = true
+            // Update the viewModel
+            viewModel.startExercise()
+
+            ttsUtil.speakNow("${workoutRoutine[currentIndex]["name"]}")
+            sleep(1000)
+            timer.start()
+        }
+    }
+
+    fun pauseWorkout(){
+        // Pause the timer
         timer.cancel()
-        viewModel.setIsTimerRunning(false)
+        //Clear the camera's surface view
+        fragment.clearView()
+        // Update the button
+        startPauseButton.text = "Resume"
+        // Update the flag
+        isTimerRunning = false
+        // Update the viewModel
+        viewModel.pauseExercise()
+//        sleep(500)
+        ttsUtil.speakNow("Workout Paused")
+    }
+
+    fun resumeWorkout(){
+        // Resume the timer with the remaining time
+        timer = object : CountDownTimer(duration.toLong(), 100) {
+            override fun onTick(millisUntilFinished: Long) {
+                duration -= 100
+                // Update the view
+                val seconds = duration / 1000
+                val displayMinute = seconds / 60
+                val displaySecond = seconds % 60
+                timerView.setText("%02d:%02d".format(displayMinute, displaySecond))
+                // Update the progress bar
+                progressIndicator.progress = duration
+            }
+            override fun onFinish() {
+                triggerNextExercise()
+            }
+        }
+        // Update the button
+        startPauseButton.text = "Pause"
+        // Update the flag
+        isTimerRunning = true
+        // Update the viewModel
+        viewModel.startExercise()
+        // Delay timer for 2 seconds
+        ttsUtil.speakNow("${workoutRoutine[currentIndex]["name"]}")
+        sleep(1000)
+        timer.start()
     }
 
     private fun startTTS(context: Context) {

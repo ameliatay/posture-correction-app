@@ -120,7 +120,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="@color/purple"
-        android:text="Next Workout" />
+        android:onClick="again"
+        android:text="Again" />
 
     <Button
         android:id="@+id/homeBtn"
@@ -130,6 +131,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="@color/gray_200"
+        android:onClick="home"
         android:text="Home"
         android:textColor="@color/purple" />
 </LinearLayout>

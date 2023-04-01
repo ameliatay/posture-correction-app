@@ -1,6 +1,7 @@
 package com.example.posturecorrectionapp.screens
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,28 +13,44 @@ import com.example.posturecorrectionapp.Workout
 class ExerciseCompleteActivity : AppCompatActivity() {
     private lateinit var nextWorkoutButton : Button
     private lateinit var homeButton : Button
-    private lateinit var numberOfExercisesCompleted : TextView
-    private lateinit var duration : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise_complete)
+        //Require portrait mode
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        // Change values accordingly @SHEN JIE
-        numberOfExercisesCompleted = findViewById(R.id.exercisesValue)
-        duration = findViewById(R.id.durationValue)
+        // Get the number of exercises completed and duration from the previous activity
+
+        val it = intent
+        val numberOfExercisesCompleted = it.getStringExtra("numberOfExercisesCompleted")
+        val duration = it.getStringExtra("duration")
+
+        //Convert the duration to minutes and seconds
+        val minutes = duration?.toInt()?.div(60)
+        val seconds = duration?.toInt()?.rem(60)
+
+
+        // Set the text of the text views
+        findViewById<TextView>(R.id.exercisesValue).text = numberOfExercisesCompleted.toString()
+        findViewById<TextView>(R.id.durationValue).text = "$minutes:$seconds"
 
         nextWorkoutButton = findViewById(R.id.nextWorkoutBtn)
         homeButton = findViewById(R.id.homeBtn)
 
-        // NOT SURE WHAT TO PUT FOR ONCLICK for both buttons @SHEN JIE (Finish activity or new intent)
-        nextWorkoutButton.setOnClickListener {
-            var it = Intent(this, NavigationActivity::class.java)
-            startActivity(it)
-        }
+    }
 
-        homeButton.setOnClickListener {
-            finish()
-        }
+    fun again(view: View) {
+        //send result code to intent
+        val resultIntent = Intent()
+        setResult(2, resultIntent)
+        finish()
+    }
+
+    fun home(view: View) {
+        //send result code to intent
+        val resultIntent = Intent()
+        setResult(1, resultIntent)
+        finish()
     }
 }

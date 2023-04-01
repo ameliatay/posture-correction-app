@@ -24,7 +24,7 @@
         android:theme="@style/MainTheme"
         tools:targetApi="31">
         <activity
-            android:name=".ExerciseCompleteActivity"
+            android:name=".screens.ExerciseCompleteActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
