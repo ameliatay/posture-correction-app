@@ -43,7 +43,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         workoutRoutine.add(mapOf("name" to "break", "duration" to "5"))
         workoutRoutine.add(mapOf("name" to "treepose", "duration" to "5"))
         workoutRoutine.add(mapOf("name" to "break", "duration" to "5"))
-        workoutRoutine.add(mapOf("name" to "pushup", "duration" to "5"))
+//        workoutRoutine.add(mapOf("name" to "pushup", "duration" to "25"))
 
         var it = Intent(activity, Workout::class.java)
         it.putExtra("workoutRoutine", workoutRoutine)

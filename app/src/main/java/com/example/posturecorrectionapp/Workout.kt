@@ -183,7 +183,9 @@ class Workout : AppCompatActivity() {
 
     fun updateFeedBack(feedback : String){
         feedbackTextView.text = feedback
-        ttsUtil.speak(feedback)
+        if (feedback != "Good Job!") {
+            ttsUtil.speak(feedback)
+        }
     }
 
     fun startWorkout(){

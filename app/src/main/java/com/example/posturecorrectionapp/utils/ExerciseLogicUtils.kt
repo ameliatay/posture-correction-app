@@ -150,9 +150,9 @@ class ExerciseLogicUtils {
                 maxPose = pose.first
             }
         }
-        if (maxScore < 0.5) {
-            maxPose = "None"
-        }
+//        if (maxScore < 0.1) {
+//            maxPose = "None"
+//        }
         Log.d("ExerciseLogicUtils", "getRelevantPoseFromClassificationModel: $maxPose")
         return maxPose
     }
