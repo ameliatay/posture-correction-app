@@ -117,4 +117,11 @@ class Datasource {
             Exercises(R.string.exercise4, R.string.category1, R.string.intermediate, R.mipmap.barre5),
         )
     }
+
+    fun loadExercisesDemo() : List<Exercises> {
+        return listOf<Exercises>(
+            Exercises(R.string.exercise5, R.string.category10, R.string.beginner, R.mipmap.crossfit2),
+            Exercises(R.string.exercise1, R.string.category10, R.string.beginner, R.mipmap.crossfit3),
+        )
+    }
 }

@@ -34,7 +34,7 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
         // hiit
         hiitDataset = Datasource().loadHiitProgram()
         hiitAdapter = ProgramsAdapter(this, hiitDataset)
-        hiitAdapter.onItemClick = { programCard -> startActivity(Intent(activity, ProgramsListActivity::class.java)) }
+        hiitAdapter.onItemClick = { programCard -> viewProgramDetails(programCard.programStringId) }
         val hiit_rv = getView()?.findViewById<RecyclerView>(R.id.hiit_rv)
         hiit_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         hiit_rv?.adapter = hiitAdapter
@@ -42,6 +42,7 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
         // barre
         barreDataset = Datasource().loadBarreProgram()
         barreAdapter = ProgramsAdapter(this, barreDataset)
+        barreAdapter.onItemClick = { programCard -> viewProgramDetails(programCard.programStringId) }
         val barre_rv = getView()?.findViewById<RecyclerView>(R.id.barre_rv)
         barre_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         barre_rv?.adapter = barreAdapter
@@ -49,6 +50,7 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
         // crossfit
         crossfitDataset = Datasource().loadCrossfitProgram()
         crossfitAdapter = ProgramsAdapter(this, crossfitDataset)
+        crossfitAdapter.onItemClick = { programCard -> viewProgramDetails(programCard.programStringId) }
         val crossfit_rv = getView()?.findViewById<RecyclerView>(R.id.crossfit_rv)
         crossfit_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         crossfit_rv?.adapter = crossfitAdapter
@@ -56,6 +58,7 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
         // pilates
         pilatesDataset = Datasource().loadPilatesProgram()
         pilatesAdapter = ProgramsAdapter(this, pilatesDataset)
+        pilatesAdapter.onItemClick = { programCard -> viewProgramDetails(programCard.programStringId) }
         val pilates_rv = getView()?.findViewById<RecyclerView>(R.id.pilates_rv)
         pilates_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         pilates_rv?.adapter = pilatesAdapter
@@ -101,6 +104,13 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
         val programString = resources.getString(card.programStringId)
         val categoryString = resources.getString(card.categoryStringId)
         return programString.contains(query, true) || categoryString.contains(query, true)
+    }
+
+    private fun viewProgramDetails(int: Int) {
+        val intent = Intent(activity, ProgramsListActivity::class.java)
+        val string = resources.getString(int)
+        intent.putExtra("program", string)
+        startActivity(intent)
     }
 
 }

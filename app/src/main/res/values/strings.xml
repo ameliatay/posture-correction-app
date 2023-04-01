@@ -57,6 +57,7 @@
     <string name="exercise2">Sit Ups</string>
     <string name="exercise3">Crunches</string>
     <string name="exercise4">Lunges</string>
+    <string name="exercise5">Squats</string>
 
     <!-- Program Names -->
     <string name="program1">Half Moon Flow I</string>
@@ -76,6 +77,7 @@
     <string name="category7">Resistance</string>
     <string name="category8">Weight Loss</string>
     <string name="category9">Yoga</string>
+    <string name="category10">Demo</string>
 
     <!-- Ratings -->
     <string name="rating4_2">4.2/5.0</string>
