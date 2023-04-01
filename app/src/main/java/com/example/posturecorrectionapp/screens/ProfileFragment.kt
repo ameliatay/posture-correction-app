@@ -42,7 +42,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val loadProfile = Datasource().loadProfile()
         val profileAdapter = ProfileAdapter(this, loadProfile)
         val loadProfileView = getView()?.findViewById<RecyclerView>(R.id.profileRecyclerView)
-        loadProfileView?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        loadProfileView?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         loadProfileView?.adapter = profileAdapter
 
 

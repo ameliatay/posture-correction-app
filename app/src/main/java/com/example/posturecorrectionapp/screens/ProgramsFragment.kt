@@ -1,5 +1,6 @@
 package com.example.posturecorrectionapp.screens
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -33,6 +34,7 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
         // hiit
         hiitDataset = Datasource().loadHiitProgram()
         hiitAdapter = ProgramsAdapter(this, hiitDataset)
+        hiitAdapter.onItemClick = { programCard -> startActivity(Intent(activity, ProgramsListActivity::class.java)) }
         val hiit_rv = getView()?.findViewById<RecyclerView>(R.id.hiit_rv)
         hiit_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         hiit_rv?.adapter = hiitAdapter
