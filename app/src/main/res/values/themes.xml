@@ -33,9 +33,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Description" parent="android:Widget.TextView">
+    <style name="SubtitleLarge" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/lato_regular</item>
-        <item name="android:textColor">@color/darkBlue</item>
+        <item name="android:textColor">@color/lightGrey</item>
         <item name="android:textSize">14sp</item>
     </style>
 

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".screens.ExercisePageActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="28sp"
+        android:paddingBottom="14sp"
+        android:paddingHorizontal="18sp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2sp"
+            android:onClick="backButtonClicked"
+            android:scaleType="centerCrop"
+            android:src="@drawable/back_button" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24sp"
+            android:paddingBottom="4sp"
+            android:text="Push Ups"
+            android:theme="@style/HeaderOne" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="0dp"
+            android:theme="@style/PinkButton"
+            android:text="Try it out"
+            app:cornerRadius="8sp" />
+
+    </LinearLayout>
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_marginVertical="12sp"
+        android:layout_marginHorizontal="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/tvDifficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24sp"
+        android:paddingBottom="4sp"
+        android:text="Difficulty: Beginner"
+        android:theme="@style/SubtitleLarge" />
+
+    <TextView
+        android:id="@+id/tvCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24sp"
+        android:paddingBottom="4sp"
+        android:text="Category: Abs &amp; Core"
+        android:theme="@style/SubtitleLarge" />
+
+    <TextView
+        android:id="@+id/tvInstructionsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24sp"
+        android:paddingBottom="4sp"
+        android:text="Instructions"
+        android:theme="@style/HeaderTwo" />
+
+    <TextView
+        android:id="@+id/tvInstructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24sp"
+        android:paddingBottom="4sp"
+        android:text="1. Get down on all fours, placing your hands slightly wider than your shoulders.\n2. Straighten your arms and legs.\n3. Lower your body until your chest nearly touches the floor.\n4. Pause, then push yourself back up.\n5. Repeat.  "
+        android:theme="@style/DefaultText" />
+
+</LinearLayout>
