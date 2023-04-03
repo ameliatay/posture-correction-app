@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="active_level">
+        <item>Better exercise posture</item>
+        <item>Follow workout routines</item>
+        <item>Build muscle</item>
+        <item>Lose weight</item>
+    </string-array>
+
+    <string-array name="goals">
+        <item>Better exercise posture</item>
+        <item>Follow workout routines</item>
+        <item>Build muscle</item>
+        <item>Lose weight</item>
+    </string-array>
+</resources>
