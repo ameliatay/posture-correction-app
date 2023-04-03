@@ -21,5 +21,6 @@ enum class BodyPart(val position: Int) {
     companion object{
         private val map = values().associateBy(BodyPart::position)
         fun fromInt(position: Int): BodyPart = map.getValue(position)
+        fun fromLabel(label: String): BodyPart = valueOf(label)
     }
 }

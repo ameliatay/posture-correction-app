@@ -14,6 +14,7 @@
         android:maxSdkVersion="28" />
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -25,6 +26,9 @@
         tools:targetApi="31">
         <activity
             android:name=".screens.ExercisePageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.ExerciseCompleteActivity"
             android:exported="false" />
         <activity
             android:name=".screens.QuestionnaireActivity"
@@ -54,6 +58,13 @@
             android:exported="false" />
         <activity
             android:name=".screens.ExerciseListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".screens.ProgramsListActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

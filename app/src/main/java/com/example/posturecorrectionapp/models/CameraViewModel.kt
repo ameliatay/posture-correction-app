@@ -4,9 +4,13 @@ import android.app.Person
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.posturecorrectionapp.data.Exercise
 import java.lang.Thread.sleep
 
 class CameraViewModel : ViewModel() {
+
+    //StaticData
+    private var exerciseLogic = HashMap<String, ExerciseRule> ()
 
     //LiveData
     // Store the current exercise
@@ -17,15 +21,26 @@ class CameraViewModel : ViewModel() {
     private var currentFeedback = MutableLiveData<String>()
     // Store the current score
     private var currentScore = MutableLiveData<Int>()
-    // Store the current peopleLandMarkInfo
-    private var currentPeopleLandMarkLs = MutableLiveData<List<Person>>()
     // Store the current time left
     private var currentTimeLeft = MutableLiveData<Int>()
     //Store the state
     private var isTimerRunning = MutableLiveData<Boolean>()
+    //Store the current pose
+    private var currentPose = MutableLiveData<String>()
+
+    //Store the current exercise state
+    private var exerciseState = MutableLiveData<String>()
 
 
     //Getter and Setter
+    fun getExerciseLogic(): HashMap<String, ExerciseRule> {
+        return exerciseLogic
+    }
+
+    fun setExerciseLogic(exerciseLogic: HashMap<String, ExerciseRule>) {
+        this.exerciseLogic = exerciseLogic
+    }
+
     fun getCurrentExercise(): MutableLiveData<String> {
         return currentExercise
     }
@@ -58,13 +73,6 @@ class CameraViewModel : ViewModel() {
         currentScore.value = score
     }
 
-    fun getCurrentPeopleLandMarkLs(): MutableLiveData<List<Person>> {
-        return currentPeopleLandMarkLs
-    }
-
-    fun setCurrentPeopleLandMarkLs(peopleLandMarkLs: List<Person>) {
-        currentPeopleLandMarkLs.value = peopleLandMarkLs
-    }
 
     fun getCurrentTimeLeft(): MutableLiveData<Int> {
         return currentTimeLeft
@@ -82,10 +90,38 @@ class CameraViewModel : ViewModel() {
         isTimerRunning.value = state
     }
 
+    fun getCurrentPose(): MutableLiveData<String> {
+        return currentPose
+    }
+
+    fun setCurrentPose(pose: String) {
+        currentPose.value = pose
+    }
+
+    fun addCount(feedback: String) {
+        if (currentFeedback.value != feedback) {
+            currentRepetition.value = currentRepetition.value?.plus(1)
+            currentScore.value = currentScore.value?.plus(1)
+        }
+    }
+
+    fun getExerciseState(): MutableLiveData<String> {
+        return exerciseState
+    }
+
+    fun startExercise() {
+        exerciseState.value = "start"
+    }
+
+    fun pauseExercise() {
+        exerciseState.value = "pause"
+    }
+
+    fun endExercise() {
+        exerciseState.value = "end"
+    }
 
     //Other functions
-
-
 
     //OnCleared
     override fun onCleared() {
