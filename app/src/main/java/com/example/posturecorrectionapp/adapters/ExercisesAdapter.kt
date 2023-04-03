@@ -7,17 +7,26 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.posturecorrectionapp.R
+import com.example.posturecorrectionapp.models.CategoryCard
 import com.example.posturecorrectionapp.models.Exercises
 import com.example.posturecorrectionapp.screens.ExerciseListActivity
 
 class ExercisesAdapter(private val context: ExerciseListActivity,
                        private val dataset: List<Exercises>): RecyclerView.Adapter<ExercisesAdapter.ItemViewHolder>() {
 
-    class ItemViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+    var onItemClick: ((Exercises) -> Unit)? = null
+
+    inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.item_image)
         val categoryView: TextView = view.findViewById(R.id.item_category)
         val nameView: TextView = view.findViewById(R.id.item_name)
         val difficultyView: TextView = view.findViewById(R.id.item_difficulty)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(dataset[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

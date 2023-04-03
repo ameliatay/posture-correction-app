@@ -25,12 +25,11 @@
         android:theme="@style/MainTheme"
         tools:targetApi="31">
         <activity
+            android:name=".screens.ExercisePageActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.ExerciseCompleteActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".screens.QuestionnaireActivity"
             android:exported="false" />

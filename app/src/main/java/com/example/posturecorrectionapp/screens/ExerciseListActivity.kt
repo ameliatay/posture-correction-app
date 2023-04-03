@@ -1,5 +1,6 @@
 package com.example.posturecorrectionapp.screens
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -19,9 +20,11 @@ class ExerciseListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val exercisesDataset = Datasource().loadExercises()
+        val exercisesAdapter = ExercisesAdapter(this, exercisesDataset)
+        exercisesAdapter.onItemClick = { exercises -> startActivity(Intent(this, ExercisePageActivity::class.java))}
         val exercisesRecyclerView = findViewById<RecyclerView>(R.id.exercises_recycler_view)
         exercisesRecyclerView.layoutManager = LinearLayoutManager(this)
-        exercisesRecyclerView?.adapter = ExercisesAdapter(this, exercisesDataset)
+        exercisesRecyclerView?.adapter = exercisesAdapter
     }
 
     fun backButtonClicked(view: View) {
