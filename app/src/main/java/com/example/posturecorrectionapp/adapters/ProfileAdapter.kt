@@ -1,5 +1,6 @@
 package com.example.posturecorrectionapp.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.posturecorrectionapp.R
 import com.example.posturecorrectionapp.models.ListItem
 import com.example.posturecorrectionapp.screens.ProfileFragment
+import com.example.posturecorrectionapp.screens.UserProfileActivity
 
 class ProfileAdapter(private val context: ProfileFragment, private val listItems: List<ListItem>) : RecyclerView.Adapter<ProfileAdapter.MyViewHolder>(){
 
@@ -32,6 +34,8 @@ class ProfileAdapter(private val context: ProfileFragment, private val listItems
                     0 -> {
                         // Handle Profile click
                         // Start ProfileActivity
+                        val intent = Intent(holder.itemView.context, UserProfileActivity::class.java)
+                        holder.itemView.context.startActivity(intent)
                     }
                     1 -> {
                         // Handle Notifications click
@@ -49,10 +53,10 @@ class ProfileAdapter(private val context: ProfileFragment, private val listItems
                         // Handle Dark Theme click
                         // Start DarkThemeActivity
                     }
-                    5 -> {
-                        // Handle Logout click
-                        // Start LoginActivity
-                    }
+//                    5 -> {
+//                        // Handle Logout click
+//                        // Start LoginActivity
+//                    }
                 }
             }
         }

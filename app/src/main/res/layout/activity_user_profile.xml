@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="30dp">
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_button"
+        android:onClick="backButtonClicked"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="User Name's Profile"
+        android:theme="@style/HeaderOne"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp">
+
+        <TextView
+            android:id="@+id/name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name:             "
+            android:textStyle="bold"
+            android:theme="@style/HeaderThree"
+            android:layout_gravity="center_vertical"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:layout_marginHorizontal="24sp"
+            android:layout_marginVertical="6sp"
+            app:cardElevation="0sp"
+            app:strokeColor="@color/darkBlue"
+            app:strokeWidth="1sp"
+            app:cardBackgroundColor="@color/offWhite"
+            app:cardCornerRadius="12dp">
+            <EditText
+                android:id="@+id/name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_label"
+                android:inputType="text"
+                android:layout_marginBottom="10dp"
+                android:background="@null"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="30dp">
+
+            <TextView
+                android:id="@+id/age_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_edittext"
+                android:text="Age:                 "
+                android:textStyle="bold"
+                android:theme="@style/HeaderThree"
+            android:layout_gravity="center_vertical" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginHorizontal="24sp"
+                android:layout_marginVertical="6sp"
+                app:cardElevation="0sp"
+                app:strokeColor="@color/darkBlue"
+                app:strokeWidth="1sp"
+                app:cardBackgroundColor="@color/offWhite"
+                app:cardCornerRadius="12dp">
+
+            <EditText
+                android:id="@+id/age_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/age_label"
+                android:inputType="number"
+                android:layout_marginBottom="10dp"
+                android:background="@null"/>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="30dp">
+
+            <TextView
+                android:id="@+id/height_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/age_edittext"
+                android:text="Height (cm):"
+                android:textStyle="bold"
+                android:theme="@style/HeaderThree"
+            android:layout_gravity="center_vertical" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginHorizontal="24sp"
+                android:layout_marginVertical="6sp"
+                app:cardElevation="0sp"
+                app:strokeColor="@color/darkBlue"
+                app:strokeWidth="1sp"
+                app:cardBackgroundColor="@color/offWhite"
+                app:cardCornerRadius="12dp">
+
+            <EditText
+                android:id="@+id/height_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/height_label"
+                android:inputType="numberDecimal"
+                android:layout_marginBottom="10dp"
+                android:background="@null"/>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="30dp">
+
+            <TextView
+                android:id="@+id/weight_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/height_edittext"
+                android:text="Weight (kg):"
+                android:textStyle="bold"
+                android:theme="@style/HeaderThree"
+            android:layout_gravity="center_vertical" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginHorizontal="24sp"
+                android:layout_marginVertical="6sp"
+                app:cardElevation="0sp"
+                app:strokeColor="@color/darkBlue"
+                app:strokeWidth="1sp"
+                app:cardBackgroundColor="@color/offWhite"
+                app:cardCornerRadius="12dp">
+
+            <EditText
+                android:id="@+id/weight_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weight_label"
+                android:inputType="numberDecimal"
+                android:layout_marginBottom="10dp"
+                android:background="@null"/>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="30dp">
+
+            <TextView
+                android:id="@+id/active_level_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weight_edittext"
+                android:text="Active Level:"
+                android:textStyle="bold"
+                android:theme="@style/HeaderThree" />
+
+            <Spinner
+                android:id="@+id/active_level_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/active_level_label"
+                android:entries="@array/active_level" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/goal_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/active_level_spinner"
+                android:layout_marginTop="10dp"
+                android:text="Goal:"
+                android:textStyle="bold"
+                android:theme="@style/HeaderThree" />
+
+            <Spinner
+                android:id="@+id/goal_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/goal_label"
+                android:entries="@array/goals" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

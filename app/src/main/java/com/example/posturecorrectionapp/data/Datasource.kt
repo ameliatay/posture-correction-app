@@ -12,7 +12,7 @@ class Datasource {
             ListItem("Security", R.drawable.icon_security),
             ListItem("Help", R.drawable.icon_help),
             ListItem("Dark Theme", R.drawable.icon_profile),
-            ListItem("Logout", R.drawable.icon_profile)
+//            ListItem("Logout", R.drawable.icon_profile)
         )
     }
     // programs
