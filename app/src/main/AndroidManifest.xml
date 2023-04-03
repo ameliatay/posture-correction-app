@@ -31,6 +31,9 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:name=".screens.UserProfileActivity"
+            android:exported="false" />
+      <activity
             android:name=".screens.ExercisePageActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
