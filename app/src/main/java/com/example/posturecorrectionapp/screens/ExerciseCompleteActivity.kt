@@ -1,14 +1,14 @@
 package com.example.posturecorrectionapp.screens
 
+import com.example.posturecorrectionapp.R
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import com.example.posturecorrectionapp.R
-import com.example.posturecorrectionapp.Workout
+import androidx.appcompat.app.AppCompatActivity
+
 
 class ExerciseCompleteActivity : AppCompatActivity() {
     private lateinit var nextWorkoutButton : Button
@@ -30,6 +30,13 @@ class ExerciseCompleteActivity : AppCompatActivity() {
         val minutes = duration?.toInt()?.div(60)
         val seconds = duration?.toInt()?.rem(60)
 
+        val sharedPreference =  getSharedPreferences("userStatistics", MODE_PRIVATE)
+        var editor = sharedPreference.edit()
+        val totalExercises = sharedPreference.getInt("totalExercises", 0)
+        editor.putInt("totalExercises", totalExercises + numberOfExercisesCompleted?.toInt()!!)
+        val totalDuration = sharedPreference.getInt("totalDuration", 0)
+        editor.putInt("totalDuration", totalDuration + minutes!!)
+        editor.commit()
 
         // Set the text of the text views
         findViewById<TextView>(R.id.exercisesValue).text = numberOfExercisesCompleted.toString()
@@ -38,6 +45,7 @@ class ExerciseCompleteActivity : AppCompatActivity() {
         nextWorkoutButton = findViewById(R.id.nextWorkoutBtn)
         homeButton = findViewById(R.id.homeBtn)
 
+
     }
 
     fun again(view: View) {
@@ -45,6 +53,8 @@ class ExerciseCompleteActivity : AppCompatActivity() {
         val resultIntent = Intent()
         setResult(2, resultIntent)
         finish()
+        val frag = supportFragmentManager.findFragmentById(R.id.fragment_profile) as ProfileFragment
+        frag.loadStatistics()
     }
 
     fun home(view: View) {
@@ -52,5 +62,7 @@ class ExerciseCompleteActivity : AppCompatActivity() {
         val resultIntent = Intent()
         setResult(1, resultIntent)
         finish()
+        val frag = supportFragmentManager.findFragmentById(R.id.fragment_profile) as ProfileFragment
+        frag.loadStatistics()
     }
 }

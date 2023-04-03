@@ -104,4 +104,8 @@
     <string name="beginner">Beginner</string>
     <string name="intermediate">Intermediate</string>
     <string name="advanced">Advanced</string>
+
+    <!-- Instructions -->
+    <string name="pushUpInstructions">1. Get down on all fours, placing your hands slightly wider than your shoulders.\n\n2. Straighten your arms and legs.\n\n3. Lower your body until your chest nearly touches the floor.\n\n4. Pause, then push yourself back up.\n\n5. Repeat.</string>
+    <string name="sitUpInstructions">1. Lie on your back on a mat with knees bent and feet flat on the floor.\n\n2. Cross your arms in front of your chest.\n\n3. Crunch your ab muscles to lift your shoulders off the mat.\n\n4. Hold for a second, then slowly come back down to starting position.</string>
 </resources>

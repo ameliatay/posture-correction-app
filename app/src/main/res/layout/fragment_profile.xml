@@ -1,57 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
+    android:id="@+id/fragment_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
-    android:orientation="vertical"
-    app:circularflow_defaultRadius="100dp">
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tvTitle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24sp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Profile"
-        android:theme="@style/HeaderOne"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvUserGreeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="24sp"
+                    android:paddingTop="28sp"
+                    android:paddingBottom="36sp"
+                    android:text="Profile"
+                    android:theme="@style/HeaderOne" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2sp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="24sp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/settings" />
+
+            </LinearLayout>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/icon_profile"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
 
-        android:src="@drawable/icon_profile"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+            <Button
+                android:id="@+id/changeProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="32sp"
+                android:layout_marginTop="24sp"
+                android:text="Edit Profile"
+                android:theme="@style/PinkButton"
+                android:clickable="false"
+                android:minWidth="0dp"
+                app:cornerRadius="8sp" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/changeProfile"
-        android:layout_width="55dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="152dp"
-        android:clickable="true"
-        android:scaleType="centerCrop"
-        android:scaleX="1"
-        android:scaleY="1"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
-        app:layout_constraintStart_toStartOf="@+id/profile_image"
-        app:layout_constraintTop_toTopOf="@+id/profile_image"
-        app:srcCompat="@drawable/icon_practice" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/profileRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeProfile" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="24sp"
+                        android:paddingBottom="18sp"
+                        android:text="Name"
+                        android:theme="@style/HeaderThree" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="24sp"
+                        android:paddingBottom="18sp"
+                        android:text="Age"
+                        android:theme="@style/HeaderThree" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="24sp"
+                        android:paddingBottom="18sp"
+                        android:text="Weight"
+                        android:theme="@style/HeaderThree" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="24sp"
+                        android:paddingBottom="18sp"
+                        android:text="Height"
+                        android:theme="@style/HeaderThree" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="24sp"
+                        android:paddingBottom="18sp"
+                        android:text="Name"
+                        android:theme="@style/HeaderThree" />
+
+                    <TextView
+                        android:id="@+id/userAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="24sp"
+                        android:paddingBottom="18sp"
+                        android:text="Age"
+                        android:theme="@style/HeaderThree" />
+
+                    <TextView
+                        android:id="@+id/userWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="24sp"
+                        android:paddingBottom="18sp"
+                        android:text="Weight"
+                        android:theme="@style/HeaderThree" />
+
+                    <TextView
+                        android:id="@+id/userHeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="24sp"
+                        android:paddingBottom="28sp"
+                        android:text="Height"
+                        android:theme="@style/HeaderThree" />
+                </LinearLayout>
+            </LinearLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="28sp"
+                android:paddingBottom="12sp"
+                android:text="Dashboard"
+                android:theme="@style/HeaderTwo" />
+
+            <TextView
+                android:id="@+id/totalExercises"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24sp"
+                android:paddingBottom="8sp"
+                android:theme="@style/DefaultText" />
+
+            <TextView
+                android:id="@+id/totalDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24sp"
+                android:theme="@style/DefaultText" />
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/idGraphView"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="24sp"
+                android:layout_marginVertical="20sp"
+                android:layout_height="200sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>

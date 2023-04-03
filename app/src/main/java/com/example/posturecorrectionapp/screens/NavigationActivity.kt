@@ -1,8 +1,11 @@
 package com.example.posturecorrectionapp.screens
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.posturecorrectionapp.R
 import com.example.posturecorrectionapp.Workout
@@ -16,29 +19,34 @@ class NavigationActivity : AppCompatActivity() {
     private val homeFragment = HomeFragment()
     private val programsFragment = ProgramsFragment()
     private val practiceFragment = PracticeFragment()
-    private val profileFragment = ProfileFragment()
+    private var profileFragment = ProfileFragment()
     private var activeFragment: Fragment = homeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPreference =  getSharedPreferences("userPreferences", MODE_PRIVATE)
+        val darkMode = sharedPreference.getBoolean("dark mode", false)
+        if (darkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
         super.onCreate(savedInstanceState)
         binding = ActivityNavigationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setUpUi()
-
-        //To test out the the workout with camera, uncomment this line
-//        goToWorkout()
-
-        val sharedPreference =  getSharedPreferences("userPreferences", MODE_PRIVATE)
-
         // To force see introduction
         // If only want to see once, clear sharedPreferences once and rerun
         /*var editor = sharedPreference.edit()
-        editor.remove("username")
+        editor.remove("name")
         editor.commit()*/
 
-        val username = sharedPreference.getString("username", null)
-        if (username == null) goToIntro()
+        val name = sharedPreference.getString("name", null)
+        if (name == null) goToIntro()
+
+
+
+        setUpUi()
     }
 
     private fun goToIntro() {
@@ -48,36 +56,53 @@ class NavigationActivity : AppCompatActivity() {
     }
 
     private fun setUpUi() {
-        fragmentManager.beginTransaction().apply {
-            add(R.id.container, homeFragment, "home")
-            add(R.id.container, programsFragment, "programs").hide(programsFragment)
-            add(R.id.container, practiceFragment, "practice").hide(practiceFragment)
-            add(R.id.container, profileFragment, "profile").hide(profileFragment)
-        }.commit()
+        if (fragmentManager.fragments.size < 4) {
+            Log.i("testing test", "HERE")
+            fragmentManager.beginTransaction().apply {
+                add(R.id.container, homeFragment, "home")
+                add(R.id.container, programsFragment, "programs").hide(programsFragment)
+                add(R.id.container, practiceFragment, "practice").hide(practiceFragment)
+                add(R.id.container, profileFragment, "profile").hide(profileFragment)
+            }.commit()
+        } else {
+            Log.i("testing test", "HERE2")
+            fragmentManager.beginTransaction().apply {
+                /*remove(profileFragment)*/
+                replace(R.id.container, profileFragment, "profile")
+            }.commit()
+            fragmentManager.beginTransaction().apply {
+                add(R.id.container, homeFragment, "home").hide(homeFragment)
+                add(R.id.container, programsFragment, "programs").hide(programsFragment)
+                add(R.id.container, practiceFragment, "practice").hide(practiceFragment)
+            }.commit()
+            fragmentManager.beginTransaction().hide(activeFragment).commit()
+            fragmentManager.beginTransaction().show(profileFragment).commit()
+            activeFragment = profileFragment
+        }
 
         binding.bottomNavView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
-                    fragmentManager.beginTransaction().hide(activeFragment)
-                        .show(homeFragment).commit()
+                    fragmentManager.beginTransaction().hide(activeFragment).commit()
+                    fragmentManager.beginTransaction().show(homeFragment).commit()
                     activeFragment = homeFragment
                     true
                 }
                 R.id.programs -> {
-                    fragmentManager.beginTransaction().hide(activeFragment)
-                        .show(programsFragment).commit()
+                    fragmentManager.beginTransaction().hide(activeFragment).commit()
+                    fragmentManager.beginTransaction().show(programsFragment).commit()
                     activeFragment = programsFragment
                     true
                 }
                 R.id.practice -> {
-                    fragmentManager.beginTransaction().hide(activeFragment)
-                        .show(practiceFragment).commit()
+                    fragmentManager.beginTransaction().hide(activeFragment).commit()
+                    fragmentManager.beginTransaction().show(practiceFragment).commit()
                     activeFragment = practiceFragment
                     true
                 }
                 R.id.profile -> {
-                    fragmentManager.beginTransaction().hide(activeFragment)
-                        .show(profileFragment).commit()
+                    fragmentManager.beginTransaction().hide(activeFragment).commit()
+                    fragmentManager.beginTransaction().show(profileFragment).commit()
                     activeFragment = profileFragment
                     true
                 }

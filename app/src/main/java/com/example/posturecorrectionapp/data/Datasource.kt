@@ -118,6 +118,19 @@ class Datasource {
         )
     }
 
+    fun loadAbExercises() : List<Exercises> {
+        return listOf<Exercises>(
+            Exercises(R.string.exercise2, R.string.category1, R.string.advanced, R.mipmap.crossfit3),
+            Exercises(R.string.exercise3, R.string.category1, R.string.beginner, R.mipmap.crossfit4),
+        )
+    }
+
+    fun loadArmExercises() : List<Exercises> {
+        return listOf<Exercises>(
+            Exercises(R.string.exercise1, R.string.category1, R.string.beginner, R.mipmap.crossfit2),
+        )
+    }
+
     fun loadExercisesDemo() : List<Exercises> {
         return listOf<Exercises>(
             Exercises(R.string.exercise5, R.string.category10, R.string.beginner, R.mipmap.crossfit2),

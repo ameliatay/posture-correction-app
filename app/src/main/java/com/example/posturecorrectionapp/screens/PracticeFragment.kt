@@ -22,14 +22,24 @@ class PracticeFragment : Fragment(R.layout.fragment_practice) {
 
         val categoryDataset = Datasource().loadPracticeCategories()
         val categoryCardAdapter = CategoryCardAdapter(this, categoryDataset)
-        categoryCardAdapter.onItemClick = { categoryCard -> startActivity(Intent(activity, ExerciseListActivity::class.java)) }
+        categoryCardAdapter.onItemClick = { categoryCard ->
+            val it = Intent(activity, ExerciseListActivity::class.java)
+            it.putExtra("category", categoryCard.categoryStringId.toString())
+            startActivity(it)
+        }
         val practiceRecyclerView = getView()?.findViewById<RecyclerView>(R.id.practice_recycler_view)
         practiceRecyclerView?.layoutManager = LinearLayoutManager(activity)
         practiceRecyclerView?.adapter = categoryCardAdapter
 
         var searchBar = getView()?.findViewById<EditText>(R.id.search_button)
         searchBar?.setOnKeyListener(View.OnKeyListener { v, keyCode, event -> if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-            startActivity(Intent(activity, SearchActivity::class.java))
+            val input = searchBar.text.toString()
+            if (input != "") {
+                val it = Intent(activity, SearchActivity::class.java)
+                it.putExtra("search", input)
+                startActivity(it)
+                searchBar.setText("")
+            }
             return@OnKeyListener true
         }
             false

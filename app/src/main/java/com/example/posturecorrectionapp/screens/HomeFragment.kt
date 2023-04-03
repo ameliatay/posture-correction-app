@@ -3,6 +3,8 @@ package com.example.posturecorrectionapp.screens
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,11 @@ import com.example.posturecorrectionapp.data.Datasource
 class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val sharedPreference =  activity?.getSharedPreferences("userPreferences",
+            AppCompatActivity.MODE_PRIVATE
+        )
+        getView()?.findViewById<TextView>(R.id.tvUserGreeting)?.text = "Hello, ${sharedPreference?.getString("name", "welcome back")}!"
 
         val jumpBackInDataset = Datasource().loadJumpBackIn()
         val programCardAdapterA = ProgramCardAdapter(this, jumpBackInDataset)
