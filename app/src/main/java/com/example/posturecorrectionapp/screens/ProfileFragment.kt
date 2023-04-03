@@ -1,67 +1,109 @@
 package com.example.posturecorrectionapp.screens
 
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import com.example.posturecorrectionapp.R
-import com.example.posturecorrectionapp.adapters.ProfileAdapter
-import com.example.posturecorrectionapp.data.Datasource
-import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import de.hdodenhof.circleimageview.CircleImageView
-//import com.google.android.gms.cast.framework.media.ImagePicker
+import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
-    private lateinit var imageView: ImageView
-    private lateinit var profileImage: CircleImageView
-    private lateinit var changeProfile: FloatingActionButton
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
-    private val startForProfileImageResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            val imageUri = data?.data
-            profileImage.setImageURI(imageUri)
-        }else if (result.resultCode == ImagePicker.RESULT_ERROR) {
-            Toast.makeText(requireContext(), ImagePicker.getError(result.data), Toast.LENGTH_SHORT).show()
-        } else {
-            //Task Cancelled
-            Toast.makeText(requireContext(), "Task Cancelled", Toast.LENGTH_SHORT).show()
+    loadUserData()
+
+    view.findViewById<ImageView>(R.id.settings).setOnClickListener {
+        startActivity(Intent(activity, SettingsActivity::class.java))
+    }
+
+    view.findViewById<Button>(R.id.changeProfile).setOnClickListener {
+        startActivityForResult(Intent(activity, EditProfileActivity::class.java), 1)
+    }
+
+    loadStatistics()
+
+    val lineGraphView = view.findViewById<GraphView>(R.id.idGraphView)
+
+    // on below line we are adding data to our graph view.
+    val series: LineGraphSeries<DataPoint> = LineGraphSeries(
+        arrayOf(
+            DataPoint(0.0, 1.0),
+            DataPoint(1.0, 3.0),
+            DataPoint(2.0, 4.0),
+            DataPoint(3.0, 9.0),
+            DataPoint(4.0, 6.0),
+            DataPoint(5.0, 3.0),
+            DataPoint(6.0, 6.0),
+            DataPoint(7.0, 1.0),
+            DataPoint(8.0, 2.0)
+        )
+    )
+
+    // on below line adding animation
+    lineGraphView.animate()
+
+    // on below line we are setting scrollable
+    // for point graph view
+    lineGraphView.viewport.isScrollable = true
+
+    // on below line we are setting scalable.
+    lineGraphView.viewport.isScalable = true
+
+    // on below line we are setting scalable y
+    lineGraphView.viewport.setScalableY(true)
+
+    // on below line we are setting scrollable y
+    lineGraphView.viewport.setScrollableY(true)
+
+    // on below line we are setting color for series.
+    series.color = R.color.purple
+
+    // on below line we are adding
+    // data series to our graph view.
+    lineGraphView.addSeries(series)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                loadUserData()
+            }
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun loadUserData() {
+        val sharedPreference =  activity?.getSharedPreferences("userPreferences",
+            AppCompatActivity.MODE_PRIVATE
+        )
+        view?.findViewById<TextView>(R.id.userName)?.text = sharedPreference?.getString("name", "")
+        view?.findViewById<TextView>(R.id.userAge)?.text = sharedPreference?.getString("age", "")
+        view?.findViewById<TextView>(R.id.userWeight)?.text = sharedPreference?.getString("weight", "")
+        view?.findViewById<TextView>(R.id.userHeight)?.text = sharedPreference?.getString("height", "")
 
-        val loadProfile = Datasource().loadProfile()
-        val profileAdapter = ProfileAdapter(this, loadProfile)
-        val loadProfileView = getView()?.findViewById<RecyclerView>(R.id.profileRecyclerView)
-        loadProfileView?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        loadProfileView?.adapter = profileAdapter
-
-
-//        imageView = view.findViewById(R.id.imageView)
-        profileImage = view.findViewById(R.id.profile_image)
-        changeProfile = view.findViewById(R.id.changeProfile)
-
-        changeProfile.setOnClickListener {
-            ImagePicker.Companion.with(this)
-                .crop()	    			//Crop image(Optional), Check Customization for more option
-                .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                .createIntent { intent ->
-                    startForProfileImageResult.launch(intent)
-                }
+        val image = sharedPreference?.getString("image", "")
+        if (image != "") {
+            val b: ByteArray = Base64.decode(image, Base64.DEFAULT)
+            val bitmap = BitmapFactory.decodeByteArray(b, 0, b.size)
+            view?.findViewById<ImageView>(R.id.profile_image)?.setImageBitmap(bitmap)
         }
     }
 
-
+    fun loadStatistics() {
+        val sharedPreference = activity?.getSharedPreferences("userStatistics", AppCompatActivity.MODE_PRIVATE)
+        view?.findViewById<TextView>(R.id.totalExercises)?.text = "Total Exercises Completed: ${sharedPreference?.getInt("totalExercises", 0).toString()}"
+        view?.findViewById<TextView>(R.id.totalDuration)?.text = "Total Duration Spent: ${sharedPreference?.getInt("totalDuration", 0).toString()}"
+    }
 }
 
 

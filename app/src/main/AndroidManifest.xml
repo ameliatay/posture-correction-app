@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-feature android:name="android.hardware.camera.any" />
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -23,27 +20,47 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MainTheme"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+        <activity
+            android:name=".screens.EditProfileActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".screens.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
         <activity
             android:name=".screens.UserProfileActivity"
             android:exported="false" />
       <activity
             android:name=".screens.ExercisePageActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".screens.ExerciseCompleteActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".screens.QuestionnaireActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".screens.IntroductionActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".screens.SearchActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".screens.ProgramsListActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".screens.NavigationActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,18 +78,10 @@
             android:exported="false" />
         <activity
             android:name=".screens.ExerciseListActivity"
+            android:screenOrientation="portrait"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
-        <activity
-            android:name=".screens.ProgramsListActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
     </application>
 
 </manifest>

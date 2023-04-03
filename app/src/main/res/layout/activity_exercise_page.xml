@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="24sp"
             android:paddingBottom="4sp"
-            android:text="Push Ups"
             android:theme="@style/HeaderOne" />
 
         <View
@@ -45,6 +44,7 @@
             android:layout_height="wrap_content"
             android:minWidth="0dp"
             android:theme="@style/PinkButton"
+            android:onClick="tryItOut"
             android:text="Try it out"
             app:cornerRadius="8sp" />
 
@@ -64,7 +64,6 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="24sp"
         android:paddingBottom="4sp"
-        android:text="Difficulty: Beginner"
         android:theme="@style/SubtitleLarge" />
 
     <TextView
@@ -81,7 +80,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="24sp"
-        android:paddingBottom="4sp"
+        android:paddingTop="20sp"
+        android:paddingBottom="16sp"
         android:text="Instructions"
         android:theme="@style/HeaderTwo" />
 
@@ -91,7 +91,6 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="24sp"
         android:paddingBottom="4sp"
-        android:text="1. Get down on all fours, placing your hands slightly wider than your shoulders.\n2. Straighten your arms and legs.\n3. Lower your body until your chest nearly touches the floor.\n4. Pause, then push yourself back up.\n5. Repeat.  "
         android:theme="@style/DefaultText" />
 
 </LinearLayout>

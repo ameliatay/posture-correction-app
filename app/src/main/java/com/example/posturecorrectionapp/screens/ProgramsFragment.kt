@@ -3,7 +3,9 @@ package com.example.posturecorrectionapp.screens
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.widget.EditText
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,9 +29,6 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // search bar
-        val searchView = view.findViewById<SearchView>(R.id.search_view)
 
         // hiit
         hiitDataset = Datasource().loadHiitProgram()
@@ -63,32 +62,31 @@ class ProgramsFragment : Fragment(R.layout.fragment_programs) {
         pilates_rv?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         pilates_rv?.adapter = pilatesAdapter
 
-        // Add search listener
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
+        var searchBar = getView()?.findViewById<EditText>(R.id.search_button)
+        searchBar?.setOnKeyListener(View.OnKeyListener { v, keyCode, event -> if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+            val input = searchBar.text.toString()
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                // Filter your adapter here based on the search query
-                Log.d("",newText)
                 // Filter hiit dataset
-                val filteredHiitDataset = filterDataset(hiitDataset, newText)
+                val filteredHiitDataset = filterDataset(hiitDataset, input)
                 hiitAdapter.filterDataset(filteredHiitDataset)
 
                 // Filter barre dataset
-                val filteredBarreDataset = filterDataset(barreDataset, newText)
+                val filteredBarreDataset = filterDataset(barreDataset, input)
                 barreAdapter.filterDataset(filteredBarreDataset)
 
                 // Filter crossfit dataset
-                val filteredCrossfitDataset = filterDataset(crossfitDataset, newText)
+                val filteredCrossfitDataset = filterDataset(crossfitDataset, input)
                 crossfitAdapter.filterDataset(filteredCrossfitDataset)
 
                 // Filter pilates dataset
-                val filteredPilatesDataset = filterDataset(pilatesDataset, newText)
+                val filteredPilatesDataset = filterDataset(pilatesDataset, input)
                 pilatesAdapter.filterDataset(filteredPilatesDataset)
-                return false
-            }
+
+                searchBar.setText("")
+
+            return@OnKeyListener true
+        }
+            false
         })
     }
 

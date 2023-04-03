@@ -26,12 +26,11 @@
             android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/tvJumpBackIn"
+            android:id="@+id/exerciseListTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="24sp"
             android:paddingBottom="4sp"
-            android:text="Abs &amp; Core"
             android:theme="@style/HeaderOne" />
 
     </LinearLayout>

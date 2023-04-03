@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".screens.QuestionnaireActivity">
+    tools:context=".screens.EditProfileActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,23 +16,49 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tvUserGreeting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24sp"
-        android:paddingTop="28sp"
-        android:text="Let's get started!"
-        android:theme="@style/HeaderOne" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="18sp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24sp"
-        android:paddingTop="24sp"
-        android:paddingBottom="4sp"
-        android:text="What's your name?"
-        android:theme="@style/HeaderTwo" />
+                <ImageView
+                    android:id="@+id/item_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back_button"
+                    android:onClick="backButtonClicked"
+                    android:layout_marginBottom="2sp"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="24sp"
+                    android:paddingTop="28sp"
+                    android:paddingBottom="36sp"
+                    android:text="Edit Profile"
+                    android:theme="@style/HeaderOne" />
+            </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/icon_profile"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="24sp"
+                android:paddingBottom="4sp"
+                android:text="What's your name?"
+                android:theme="@style/HeaderTwo" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -46,25 +72,24 @@
                 app:cardCornerRadius="12dp">
 
                 <EditText
-                    android:id="@+id/name"
+                    android:id="@+id/editName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="12sp"
                     android:theme="@style/Search"
                     android:hint="Your name"
-                    android:background="@null"
-                    android:inputType="textPersonName" />
+                    android:background="@null" />
 
             </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24sp"
-        android:paddingTop="16sp"
-        android:paddingBottom="4sp"
-        android:text="How old are you?"
-        android:theme="@style/HeaderTwo" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="16sp"
+                android:paddingBottom="4sp"
+                android:text="How old are you?"
+                android:theme="@style/HeaderTwo" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -78,25 +103,24 @@
                 app:cardCornerRadius="12dp">
 
                 <EditText
-                    android:id="@+id/age"
+                    android:id="@+id/editAge"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="12sp"
                     android:theme="@style/Search"
                     android:hint="Your age"
-                    android:background="@null"
-                    android:inputType="textPersonName" />
+                    android:background="@null" />
 
             </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24sp"
-        android:paddingTop="16sp"
-        android:paddingBottom="4sp"
-        android:text="Your height?"
-        android:theme="@style/HeaderTwo" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="16sp"
+                android:paddingBottom="4sp"
+                android:text="Your height?"
+                android:theme="@style/HeaderTwo" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -110,25 +134,24 @@
                 app:cardCornerRadius="12dp">
 
                 <EditText
-                    android:id="@+id/height"
+                    android:id="@+id/editHeight"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="12sp"
                     android:theme="@style/Search"
                     android:hint="Your height"
-                    android:background="@null"
-                    android:inputType="textPersonName" />
+                    android:background="@null" />
 
             </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24sp"
-        android:paddingTop="16sp"
-        android:paddingBottom="4sp"
-        android:text="Your weight?"
-        android:theme="@style/HeaderTwo" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="24sp"
+                android:paddingTop="16sp"
+                android:paddingBottom="4sp"
+                android:text="Your weight?"
+                android:theme="@style/HeaderTwo" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -142,14 +165,13 @@
                 app:cardCornerRadius="12dp">
 
                 <EditText
-                    android:id="@+id/weight"
+                    android:id="@+id/editWeight"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="12sp"
                     android:theme="@style/Search"
                     android:hint="Your weight"
-                    android:background="@null"
-                    android:inputType="textPersonName" />
+                    android:background="@null" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -160,12 +182,9 @@
                 android:layout_marginTop="16sp"
                 android:layout_marginBottom="32sp"
                 app:cornerRadius="8sp"
-                android:onClick="submitClicked"
+                android:onClick="updateClicked"
                 android:layout_gravity="center"
-                android:text="SUBMIT" />
-
+                android:text="UPDATE" />
         </LinearLayout>
-
     </ScrollView>
-
 </LinearLayout>
