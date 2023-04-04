@@ -17,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -73,7 +74,7 @@ class Camera : Fragment() {
     private var cameraFacing = false
     private val exerciseLogicUtils = ExerciseLogicUtils()
 
-    private lateinit var cameraToggle: Button
+//    private lateinit var cameraToggle: ImageButton
     private lateinit var safeContext: Context
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -104,7 +105,7 @@ class Camera : Fragment() {
         // Use ViewModel by Workout Activity
         cameraViewModel = ViewModelProvider(requireActivity())[CameraViewModel::class.java]
         cameraProviderFuture = ProcessCameraProvider.getInstance(safeContext)
-        cameraToggle = v.findViewById<Button>(R.id.switchCameraButton)
+//        cameraToggle = v.findViewById<ImageButton>(R.id.switchCameraButton)
         preview = Preview.Builder().build()
         imageCapture = ImageCapture.Builder().build()
         cameraSelector = CameraSelector.Builder()
@@ -119,7 +120,7 @@ class Camera : Fragment() {
         }
 
 //        v.findViewById<Button>(R.id.image_capture_button)?.setOnClickListener { takePhoto() }
-        v.findViewById<Button>(R.id.switchCameraButton)?.setOnClickListener { switchCamera() }
+//        v.findViewById<ImageButton>(R.id.switchCameraButton)?.setOnClickListener { switchCamera() }
 
         outputDirectory = getOutputDirectory()
 
@@ -177,12 +178,12 @@ class Camera : Fragment() {
             if (it == "start") {
                 v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
                 v.findViewById<PreviewView>(R.id.previewView).visibility = View.INVISIBLE
-                v.findViewById<Button>(R.id.switchCameraButton).visibility = View.INVISIBLE
+//                v.findViewById<ImageButton>(R.id.switchCameraButton).visibility = View.INVISIBLE
                 startInference()
             }else{
                 v.findViewById<ImageView>(R.id.surfaceView).visibility = View.INVISIBLE
                 v.findViewById<PreviewView>(R.id.previewView).visibility = View.VISIBLE
-                v.findViewById<Button>(R.id.switchCameraButton).visibility = View.VISIBLE
+//                v.findViewById<ImageButton>(R.id.switchCameraButton).visibility = View.VISIBLE
                 startCamera(safeContext)
             }
         }
@@ -307,7 +308,7 @@ class Camera : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     fun switchCamera() {
-        val cameraToggle = v.findViewById<Button>(R.id.switchCameraButton)
+        val cameraToggle = v.findViewById<ImageButton>(R.id.switchCameraButton)
 
         //check if state is the same as current camera
         cameraSelector = if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
@@ -317,11 +318,11 @@ class Camera : Fragment() {
         }
         startCamera(safeContext)
 
-        if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
-            cameraToggle.text = "Back Camera"
-        } else {
-            cameraToggle.text = "Front Camera"
-        }
+//        if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
+//            cameraToggle.text = "Back Camera"
+//        } else {
+//            cameraToggle.text = "Front Camera"
+//        }
     }
 
     //Create Pose Estimator Movenet Lightning

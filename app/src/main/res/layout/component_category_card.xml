@@ -12,7 +12,8 @@
         android:layout_height="175sp"
         android:layout_marginHorizontal="20sp"
         android:layout_marginVertical="8dp"
-        app:cardCornerRadius="12dp">
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp">
 
         <ImageView
             android:id="@+id/item_image"
@@ -43,7 +44,8 @@
             android:theme="@style/PinkButton"
             android:clickable="false"
             android:minWidth="0dp"
-            app:cornerRadius="8sp" />
+            app:cornerRadius="8sp"
+            android:elevation="8dp"/>
 
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

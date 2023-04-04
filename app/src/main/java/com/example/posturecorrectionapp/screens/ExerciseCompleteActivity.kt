@@ -62,7 +62,5 @@ class ExerciseCompleteActivity : AppCompatActivity() {
         val resultIntent = Intent()
         setResult(1, resultIntent)
         finish()
-        val frag = supportFragmentManager.findFragmentById(R.id.fragment_profile) as ProfileFragment
-        frag.loadStatistics()
     }
 }

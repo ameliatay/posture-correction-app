@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextClock
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -42,6 +43,8 @@ class Workout : AppCompatActivity() {
     private lateinit var timerView: TextView
     private lateinit var startPauseButton : Button
     private lateinit var progressIndicator: CircularProgressIndicator
+//    private lateinit var toggleCamera: ImageButton
+    private lateinit var cameraFragment: Camera
 
     //Data Related
     private var workoutRoutine = ArrayList<Map<String,String>>()
@@ -151,17 +154,21 @@ class Workout : AppCompatActivity() {
                     pauseWorkout()
                 }
             }
-
         }
+
+        //Get Camera Fragment
+        cameraFragment = supportFragmentManager.findFragmentById(R.id.cameraPreview) as Camera
     }
 
     private fun goToComplete() {
         val intent = Intent(this, ExerciseCompleteActivity::class.java)
-        intent.putExtra("numberOfExercisesCompleted", workoutRoutine.size.toString())
+        // Count the number of exercises completed that is not break
+        val numberOfExercisesCompleted = workoutRoutine.filter { it["name"] != "break" }.size
+        intent.putExtra("numberOfExercisesCompleted", numberOfExercisesCompleted.toString())
         val duration = workoutRoutine.map { it["duration"] }.reduce { acc, s -> (acc!!.toInt() + s!!.toInt()).toString() }
         intent.putExtra("duration", duration)
         Log.d("duration", duration?:"null")
-        Log.d("workoutRoutine", workoutRoutine.size.toString())
+        Log.d("workoutRoutine", numberOfExercisesCompleted.toString())
         getResult.launch(intent)
     }
 
@@ -336,6 +343,12 @@ class Workout : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         ttsUtil.destroy()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun switchCamera(view: View) {
+        // Get fragment
+        cameraFragment.switchCamera()
     }
 
 }

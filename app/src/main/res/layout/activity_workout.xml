@@ -26,15 +26,39 @@
         android:layout_height="match_parent"
         android:layout_weight="4"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Exercise Name"
-            android:layout_gravity="center"
-            android:id="@+id/WorkoutText"
-            android:textSize="30dp"
-            android:textColor="@color/black"
-            />
+            android:layout_weight="1"
+            >
+
+            <ImageButton
+                android:id="@+id/switchCameraButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@null"
+                android:scaleType="center"
+                android:src="@drawable/camera_flip"
+                android:onClick="switchCamera"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.955"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/WorkoutText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Exercise Name"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                app:layout_constraintEnd_toEndOf="@+id/switchCameraButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +89,6 @@
                 android:layout_height="match_parent"
                 android:max="100"
                 android:progress="0"
-
                 app:indicatorColor="@color/design_default_color_secondary"
                 app:indicatorSize="80sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -99,6 +122,7 @@
                 app:layout_constraintEnd_toStartOf="@id/progressBar"
                 app:layout_constraintTop_toTopOf="@id/progressBar"
                 />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

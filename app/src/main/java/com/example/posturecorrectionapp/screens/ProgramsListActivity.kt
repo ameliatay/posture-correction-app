@@ -34,10 +34,10 @@ class ProgramsListActivity : AppCompatActivity() {
             //Replace space with empty string, remove trailing s, and lowercase
             val key = name.replace(" ", "").removeSuffix("s").toLowerCase()
             // Create a map of the exercise name and duration
-            val exerciseMap = mapOf("name" to key, "duration" to "5")
+            val exerciseMap = mapOf("name" to key, "duration" to "15")
             workoutRoutine.add(exerciseMap)
             if (count < exercisesDataset.size) {
-                workoutRoutine.add(mapOf("name" to "break", "duration" to "5"))
+                workoutRoutine.add(mapOf("name" to "break", "duration" to "10"))
             }
         }
         val exercisesRecyclerView = findViewById<RecyclerView>(R.id.exercises_recycler_view)

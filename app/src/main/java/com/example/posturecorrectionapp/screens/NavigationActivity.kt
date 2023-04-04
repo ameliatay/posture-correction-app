@@ -23,6 +23,7 @@ class NavigationActivity : AppCompatActivity() {
     private var activeFragment: Fragment = homeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         val sharedPreference =  getSharedPreferences("userPreferences", MODE_PRIVATE)
         val darkMode = sharedPreference.getBoolean("dark mode", false)
         if (darkMode) {
@@ -109,6 +110,11 @@ class NavigationActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        profileFragment.loadStatistics()
     }
 
      fun goToWorkout() {

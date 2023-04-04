@@ -37,12 +37,14 @@
         android:layout_margin="0dp"
         android:background="@color/white"
         android:id="@+id/restingScreen"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:gravity="center"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Break Time"
-            android:layout_gravity="center"
+
             android:id="@+id/restingText"
             android:layout_marginTop="20dp"
             android:textSize="30sp"
@@ -52,7 +54,7 @@
         <ImageView
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_gravity="center"
+
             android:layout_marginTop="30dp"
             android:src="@drawable/break_time"/>
     </LinearLayout>
@@ -91,16 +93,29 @@
         app:layout_constrainedWidth="true"
         />
 
-    <Button
-        android:id="@+id/switchCameraButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Front"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:theme="@style/PinkButton"
-        />
+<!--    <Button-->
+<!--        android:id="@+id/switchCameraButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:theme="@style/PinkButton"-->
+<!--        />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/switchCameraButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/camera_flip"-->
+<!--        android:layout_gravity="left"-->
+<!--        android:scaleType="center"-->
+<!--        android:background="@null"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/vertical_centerline"
